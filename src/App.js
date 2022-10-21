@@ -1,8 +1,10 @@
 import { GObusAppBar } from "./component/GObusAppBar";
-import { GObusNavBar } from "./component/BObusNavBar";
+import { GObusNavBar } from "./component/GObusNavBar";
+import { MapDisplay } from "./component/GObusMaps";
 import { BookingKursi } from "./component/BookingKursi";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+
 const App = () => {
   return (
     <>
@@ -14,7 +16,7 @@ const App = () => {
       <Box sx={{ flexGrow: 1, padding: 2 }}>
         <BookingKursi />
       </Box>
-
+      <MapDisplay />
       <GObusNavBar />
     </>
   );
