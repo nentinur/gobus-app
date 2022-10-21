@@ -19,7 +19,20 @@ import Stack from "@mui/material/Stack";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
+const ListBus = [
+  {
+    noBus: "E2345EH",
+    kursiKosong: 2,
+    keberangkatan: ["06:30", "10:00", "14:00", "16:00"],
+    jurusan: "bdg-imy",
+  },
+  {
+    noBus: "D2345EH",
+    kursiKosong: 2,
+    keberangkatan: ["06:30", "10:00", "14:00", "16:00"],
+    jurusan: "imy-bdg",
+  },
+];
 const jurusanBus = [
   {
     value: "bdg-imy",
@@ -42,19 +55,6 @@ const jamKeberangkatan = [
 ];
 
 export const BookingKursi = () => {
-  const [value, setValue] = React.useState(dayjs());
-
-  const PilihTanggal = (newValue) => {
-    setValue(newValue);
-  };
-  const [jurusan, setJurusan] = React.useState("bdg-imy");
-  const PilihJurusan = (event) => {
-    setJurusan(event.target.value);
-  };
-  const [jam, setJam] = React.useState("5-30");
-  const PilihJam = (event) => {
-    setJam(event.target.value);
-  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -99,73 +99,72 @@ export const BookingKursi = () => {
           noValidate
           autoComplete="off"
         >
-          <div>
-            <TextField
-              id="pilih-tanggal"
-              select
-              label="Pilih Jurusan Bus"
-              value={jurusan}
-              onChange={PilihJurusan}
-            >
-              {jurusanBus.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-          <div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <Stack spacing={3}>
-                <MobileDatePicker
-                  label="Pilih Tanggal Keberangkatan"
-                  inputFormat="MM/DD/YYYY"
-                  value={value}
-                  onChange={PilihTanggal}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </Stack>
-            </LocalizationProvider>
-          </div>
-          <div>
-            <TextField
-              id="pilih-jam"
-              select
-              label="Pilih Jam Keberangkatan"
-              value={jam}
-              onChange={PilihJam}
-            >
-              {jamKeberangkatan.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-          <Button onClick={handleClose}>Cari Bus</Button>
+          <InputJurusan />
+          <InputJam />
         </Box>
+        <Box> </Box>
       </Dialog>
     </>
   );
 };
 
-const ListBus = [
-  {
-    noBus: "E2345EH",
-    kursiKosong: 2,
-    keberangkatan: ["06:30", "10:00", "14:00", "16:00"],
-    jurusan: "bdg-imy",
-  },
-  {
-    noBus: "b2345EH",
-    kursiKosong: 2,
-    keberangkatan: ["06:30", "10:00", "14:00", "16:00"],
-    jurusan: "imy-bdg",
-  },
-];
-
-function FilterBus() {
-  ListBus.filter((ListBus) => ListBus.jurusan === "bdg-imy").map(
-    (filteredListBus) => <li>{filteredListBus.jurusan}</li>
+const InputJurusan = () => {
+  const [jurusan, setJurusan] = React.useState("");
+  const PilihJurusan = (event) => {
+    setJurusan(event.target.value);
+  };
+  return (
+    <div>
+      <TextField
+        id="pilih-jurusan"
+        select
+        label="Pilih Jurusan Bus"
+        value={jurusan}
+        onChange={PilihJurusan}
+      >
+        {jurusanBus.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+      {console.log("jurusan: " + jurusan)}
+      {ListBus.filter((hasilJurusan) => {
+        if (jurusan.includes(ListBus.jurusan)) {
+          return hasilJurusan;
+        }
+      }).map((hasilJurusan, key) => {
+        return (
+          <div key={key}>
+            <p>{hasilJurusan.jurusan}</p>
+          </div>
+        );
+        console.log("hasil jurusan: " + hasilJurusan);
+      })}
+    </div>
   );
-}
+};
+
+const InputJam = () => {
+  const [jam, setJam] = React.useState("05-30");
+  const PilihJam = (event) => {
+    setJam(event.target.value);
+  };
+  return (
+    <div>
+      <TextField
+        id="pilih-jam"
+        select
+        label="Pilih Jam Keberangkatan"
+        value={jam}
+        onChange={PilihJam}
+      >
+        {jamKeberangkatan.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+    </div>
+  );
+};
