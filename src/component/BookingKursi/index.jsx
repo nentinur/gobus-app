@@ -10,49 +10,12 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import Stack from "@mui/material/Stack";
+import FolderList from "./Booking";
+import { jurusanBus, jamKeberangkatan } from "../../Data";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-const ListBus = [
-  {
-    noBus: "E2345EH",
-    kursiKosong: 2,
-    keberangkatan: ["06:30", "10:00", "14:00", "16:00"],
-    jurusan: "bdg-imy",
-  },
-  {
-    noBus: "D2345EH",
-    kursiKosong: 2,
-    keberangkatan: ["06:30", "10:00", "14:00", "16:00"],
-    jurusan: "imy-bdg",
-  },
-];
-const jurusanBus = [
-  {
-    value: "bdg-imy",
-    label: "Bandung - Indramayu",
-  },
-  {
-    value: "imy-bdg",
-    label: "Indramayu - Bandung",
-  },
-];
-const jamKeberangkatan = [
-  {
-    value: "05-30",
-    label: "05:30",
-  },
-  {
-    value: "10-00",
-    label: "10:00",
-  },
-];
 
 export const BookingKursi = () => {
   const handleClickOpen = () => {
@@ -102,7 +65,9 @@ export const BookingKursi = () => {
           <InputJurusan />
           <InputJam />
         </Box>
-        <Box> </Box>
+        <Box sx={{ border: 1, margin: 2 }}>
+          <FolderList />
+        </Box>
       </Dialog>
     </>
   );
@@ -112,6 +77,7 @@ const InputJurusan = () => {
   const [jurusan, setJurusan] = React.useState("");
   const PilihJurusan = (event) => {
     setJurusan(event.target.value);
+    console.log(jurusan);
   };
   return (
     <div>
@@ -128,19 +94,6 @@ const InputJurusan = () => {
           </MenuItem>
         ))}
       </TextField>
-      {console.log("jurusan: " + jurusan)}
-      {ListBus.filter((hasilJurusan) => {
-        if (jurusan.includes(ListBus.jurusan)) {
-          return hasilJurusan;
-        }
-      }).map((hasilJurusan, key) => {
-        return (
-          <div key={key}>
-            <p>{hasilJurusan.jurusan}</p>
-          </div>
-        );
-        console.log("hasil jurusan: " + hasilJurusan);
-      })}
     </div>
   );
 };
