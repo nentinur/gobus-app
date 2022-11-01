@@ -1,25 +1,50 @@
 import { GObusAppBar } from "./component/GObusAppBar";
 import { GObusNavBar } from "./component/GObusNavBar";
-import { MapDisplay } from "./component/GObusMaps";
-import { BookingKursi } from "./component/BookingKursi";
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import { Beranda } from "./component/Home";
+import Riwayat from "./component/Riwayat";
+import { HashRouter, Routes, Route, Link, Outlet } from "react-router-dom";
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/in",
+  },
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <Beranda />,
+      },
+      {
+        path: "riwayat",
+        element: <Riwayat />,
+      },
+    ],
+  },
+]);
 
 const App = () => {
   return (
-    <>
-      <GObusAppBar />
-      <Box sx={{ flexGrow: 1, padding: 2 }}>
-        <Typography variant="h5">Halo, Pengguna</Typography>
-        <Typography variant="h6">mau kemana hari ini?</Typography>
-      </Box>
-      <Box sx={{ flexGrow: 1, padding: 2 }}>
-        <BookingKursi />
-      </Box>
-      <MapDisplay />
-      <GObusNavBar />
-    </>
+    <div>
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </div>
   );
 };
+
+function Layout() {
+  return (
+    <div>
+      <GObusAppBar />
+      <Outlet />
+      <GObusNavBar />
+    </div>
+  );
+}
 
 export default App;

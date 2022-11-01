@@ -6,25 +6,39 @@ import RestoreIcon from "@mui/icons-material/Restore";
 import ChatIcon from "@mui/icons-material/Chat";
 import HomeIcon from "@mui/icons-material/Home";
 import Paper from "@mui/material/Paper";
+import Riwayat from "../Riwayat";
+import { Link, useNavigate } from "react-router-dom";
 
 export const GObusNavBar = () => {
-  const [value, setValue] = React.useState(1);
+  const navigate = useNavigate();
+  const [value, setValue] = React.useState("riwayat");
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    navigate(newValue);
+  };
+
   return (
     <Box sx={{ pb: 7 }}>
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
         elevation={3}
       >
-        <BottomNavigation
-          showLabels
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
-        >
-          <BottomNavigationAction label="Riwayat" icon={<RestoreIcon />} />
-          <BottomNavigationAction label="Beranda" icon={<HomeIcon />} />
-          <BottomNavigationAction label="Chat" icon={<ChatIcon />} />
+        <BottomNavigation showLabels value={value} onChange={handleChange}>
+          <BottomNavigationAction
+            value={"riwayat"}
+            label="Riwayat"
+            icon={<RestoreIcon />}
+          />
+          <BottomNavigationAction
+            value=""
+            label="Beranda"
+            icon={<HomeIcon />}
+          />
+          <BottomNavigationAction
+            value="chat"
+            label="Chat"
+            icon={<ChatIcon />}
+          />
         </BottomNavigation>
       </Paper>
     </Box>

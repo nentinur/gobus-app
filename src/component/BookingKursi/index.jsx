@@ -11,13 +11,14 @@ import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import FolderList from "./Booking";
-import { jurusanBus, jamKeberangkatan } from "../../Data";
+import { ListBus, jurusanBus, jamKeberangkatan } from "../../Data";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export const BookingKursi = () => {
+  const [jurusan, setJurusan] = React.useState("");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -62,22 +63,25 @@ export const BookingKursi = () => {
           noValidate
           autoComplete="off"
         >
-          <InputJurusan />
+          <InputJurusan jurusan={jurusan} />
           <InputJam />
         </Box>
         <Box sx={{ border: 1, margin: 2 }}>
-          <FolderList />
+          <FolderList
+            data={
+              (ListBus.filter((bus) => bus.jurusan === jurusan), setJurusan)
+            }
+          />
         </Box>
       </Dialog>
     </>
   );
 };
 
-const InputJurusan = () => {
-  const [jurusan, setJurusan] = React.useState("");
+const InputJurusan = (jurusan, setJurusan) => {
   const PilihJurusan = (event) => {
     setJurusan(event.target.value);
-    console.log(jurusan);
+    console.log("jurusan: " + event.target.value);
   };
   return (
     <div>
@@ -88,9 +92,9 @@ const InputJurusan = () => {
         value={jurusan}
         onChange={PilihJurusan}
       >
-        {jurusanBus.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+        {ListBus.map((option) => (
+          <MenuItem key={option.jurusan} value={option.jurusan}>
+            {option.jurusan}
           </MenuItem>
         ))}
       </TextField>

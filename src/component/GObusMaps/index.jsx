@@ -14,6 +14,12 @@ Leaflet.Icon.Default.mergeOptions({
 });
 
 export class MapDisplay extends Component {
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    });
+  }
   state = {
     lat: -6.9349053,
     lng: 107.7057152,
@@ -26,7 +32,7 @@ export class MapDisplay extends Component {
       <MapContainer
         center={position}
         zoom={this.state.zoom}
-        style={{ height: "400px", margin: "10px" }}
+        style={{ height: "400px", margin: "10px", zIndex: 0 }}
       >
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
