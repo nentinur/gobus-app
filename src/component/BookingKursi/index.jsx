@@ -6,19 +6,15 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import Dialog from "@mui/material/Dialog";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
-import FolderList from "./Booking";
-import { ListBus, jurusanBus, jamKeberangkatan } from "../../Data";
+import { FilterBus } from "./FilterBus";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export const BookingKursi = () => {
-  const [jurusan, setJurusan] = React.useState("");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -63,65 +59,9 @@ export const BookingKursi = () => {
           noValidate
           autoComplete="off"
         >
-          <InputJurusan jurusan={jurusan} />
-          <InputJam />
-        </Box>
-        <Box sx={{ border: 1, margin: 2 }}>
-          <FolderList
-            data={
-              (ListBus.filter((bus) => bus.jurusan === jurusan), setJurusan)
-            }
-          />
+          <FilterBus />
         </Box>
       </Dialog>
     </>
-  );
-};
-
-const InputJurusan = (jurusan, setJurusan) => {
-  const PilihJurusan = (event) => {
-    setJurusan(event.target.value);
-    console.log("jurusan: " + event.target.value);
-  };
-  return (
-    <div>
-      <TextField
-        id="pilih-jurusan"
-        select
-        label="Pilih Jurusan Bus"
-        value={jurusan}
-        onChange={PilihJurusan}
-      >
-        {ListBus.map((option) => (
-          <MenuItem key={option.jurusan} value={option.jurusan}>
-            {option.jurusan}
-          </MenuItem>
-        ))}
-      </TextField>
-    </div>
-  );
-};
-
-const InputJam = () => {
-  const [jam, setJam] = React.useState("05-30");
-  const PilihJam = (event) => {
-    setJam(event.target.value);
-  };
-  return (
-    <div>
-      <TextField
-        id="pilih-jam"
-        select
-        label="Pilih Jam Keberangkatan"
-        value={jam}
-        onChange={PilihJam}
-      >
-        {jamKeberangkatan.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
-    </div>
   );
 };

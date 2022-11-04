@@ -1,4 +1,4 @@
-import { MapDisplay } from "../GObusMaps";
+import { MapsBeranda } from "../GObusMaps";
 import { BookingKursi } from "../BookingKursi";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
@@ -14,7 +14,7 @@ export const Beranda = () => {
         <Box sx={{ flexGrow: 1, padding: 2 }}>
           <BookingKursi />
         </Box>
-        <MapDisplay />
+        <MapsBeranda />
       </div>
     </div>
   );

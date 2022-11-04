@@ -5,25 +5,26 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import StarIcon from "@mui/icons-material/Star";
+import { useNavigate } from "react-router-dom";
 
 const Riwayat = () => {
+  const navigate = useNavigate();
   return (
     <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+      sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}
       aria-label="contacts"
     >
       <ListItem disablePadding>
-        <ListItemButton>
+        <ListItemButton onClick={navigate("lacak-bus")}>
+          <ListItemText primary="Indramayu-Bandung" secondary="Today" />
           <ListItemIcon>
             <StarIcon />
           </ListItemIcon>
-          <ListItemText primary="Indramayu-Bandung" secondary="Today" />
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemText
-            inset
             primary="Bandung-Indramayu"
             secondary="20 October 2022"
           />

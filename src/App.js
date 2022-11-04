@@ -2,7 +2,9 @@ import { GObusAppBar } from "./component/GObusAppBar";
 import { GObusNavBar } from "./component/GObusNavBar";
 import { Beranda } from "./component/Home";
 import Riwayat from "./component/Riwayat";
-import { HashRouter, Routes, Route, Link, Outlet } from "react-router-dom";
+import { RincianRiwayat } from "./component/Riwayat/RincianRiwayat";
+import Chat from "./component/Chat";
+import { Outlet } from "react-router-dom";
 import React from "react";
 import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: "riwayat",
         element: <Riwayat />,
+      },
+      {
+        path: "chat",
+        element: <Chat />,
+      },
+      {
+        path: "riwayat/lacak-bus",
+        element: <RincianRiwayat />,
       },
     ],
   },

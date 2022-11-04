@@ -7,11 +7,11 @@ import ChatIcon from "@mui/icons-material/Chat";
 import HomeIcon from "@mui/icons-material/Home";
 import Paper from "@mui/material/Paper";
 import Riwayat from "../Riwayat";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const GObusNavBar = () => {
   const navigate = useNavigate();
-  const [value, setValue] = React.useState("riwayat");
+  const [value, setValue] = React.useState("");
   const handleChange = (event, newValue) => {
     setValue(newValue);
     navigate(newValue);

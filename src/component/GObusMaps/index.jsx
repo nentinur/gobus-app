@@ -13,7 +13,7 @@ Leaflet.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-export class MapDisplay extends Component {
+export class MapsBeranda extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(function (position) {
       console.log("Latitude is :", position.coords.latitude);
@@ -39,7 +39,7 @@ export class MapDisplay extends Component {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker position={position}>
-          <Popup>Son Konum</Popup>
+          <Popup>Nenti Nur</Popup>
         </Marker>
       </MapContainer>
     );
