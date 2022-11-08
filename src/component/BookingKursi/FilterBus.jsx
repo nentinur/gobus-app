@@ -7,14 +7,10 @@ import DirectionsBus from "@mui/icons-material/DirectionsBus";
 import { ListItem, ListItemButton } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { ListBus, jamKeberangkatan } from "../../Data";
+import { ListBus, jurusanBus } from "../../Data";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import { Booking } from "./Booking";
 
 export const FilterBus = () => {
   const [jurusan, setJurusan] = React.useState("");
@@ -35,26 +31,14 @@ export const FilterBus = () => {
         value={jurusan}
         onChange={PilihJurusan}
       >
-        {ListBus.map((option) => (
-          <MenuItem key={option.jurusan} value={option.jurusan}>
-            {option.jurusan}
-          </MenuItem>
-        ))}
-      </TextField>
-      <TextField
-        id="pilih-jam"
-        select
-        label="Pilih Jam Keberangkatan"
-        value={jam}
-        onChange={PilihJam}
-      >
-        {jamKeberangkatan.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
+        {jurusanBus.map((option) => (
+          <MenuItem key={option.label} value={option.label}>
             {option.label}
           </MenuItem>
         ))}
       </TextField>
       <FilteredBus dataJurusan={dataJurusan} />
+      <Booking />
     </div>
   );
 };
@@ -70,37 +54,26 @@ const FilteredBus = (props) => {
   };
   return (
     <div>
-      <div>
-        <List
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        >
-          {props.dataJurusan?.map((ListBus) => (
-            <ListItemButton onClick={handleClickOpen}>
-              <ListItemAvatar>
-                <Avatar>
-                  <DirectionsBus />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={"Jurusan: " + ListBus.jurusan}
-                secondary={"Kursi Kosong: " + ListBus.kursiKosong}
-              />
-            </ListItemButton>
-          ))}
-        </List>
-      </div>
-      <div>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Pilih Kursi</DialogTitle>
-          <DialogContent>
-            <PilihKursi kursi={props.dataJurusan} />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Batal</Button>
-            <Button onClick={handleClose}>Pilih</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+        {props.dataJurusan?.map((ListBus) => (
+          <ListItemButton>
+            <ListItemAvatar>
+              <Avatar>
+                <DirectionsBus />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={"Jurusan: " + ListBus.jurusan}
+              secondary={
+                "Jam: " +
+                ListBus.keberangkatan +
+                " | Kursi Kosong: " +
+                ListBus.kursiKosong.length
+              }
+            />
+          </ListItemButton>
+        ))}
+      </List>
     </div>
   );
 };

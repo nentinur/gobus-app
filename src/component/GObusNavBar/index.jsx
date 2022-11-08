@@ -7,7 +7,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import HomeIcon from "@mui/icons-material/Home";
 import Paper from "@mui/material/Paper";
 import Riwayat from "../Riwayat";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const GObusNavBar = () => {
   const navigate = useNavigate();
@@ -16,6 +16,21 @@ export const GObusNavBar = () => {
     setValue(newValue);
     navigate(newValue);
   };
+
+  const location = useLocation();
+  console.log(location.pathname.split("/"));
+  switch (location.pathname.split("/")[1]) {
+    case "riwayat":
+      if (value !== "riwayat") {
+        setValue("riwayat");
+      }
+      break;
+    case "chat":
+      if (value !== "chat") {
+        setValue("chat");
+      }
+      break;
+  }
 
   return (
     <Box sx={{ pb: 7 }}>

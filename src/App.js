@@ -2,7 +2,7 @@ import { GObusAppBar } from "./component/GObusAppBar";
 import { GObusNavBar } from "./component/GObusNavBar";
 import { Beranda } from "./component/Home";
 import Riwayat from "./component/Riwayat";
-import { RincianRiwayat } from "./component/Riwayat/RincianRiwayat";
+import RincianRiwayat from "./component/Riwayat/RincianRiwayat";
 import Chat from "./component/Chat";
 import { Outlet } from "react-router-dom";
 import React from "react";

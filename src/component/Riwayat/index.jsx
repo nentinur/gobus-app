@@ -1,24 +1,28 @@
 import * as React from "react";
+import { useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import StarIcon from "@mui/icons-material/Star";
 import { useNavigate } from "react-router-dom";
+import DirectionsIcon from "@mui/icons-material/Directions";
 
 const Riwayat = () => {
   const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("lacak-bus");
+  };
   return (
     <List
-      sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}
+      sx={{ width: "100%", bgcolor: "background.paper" }}
       aria-label="contacts"
     >
       <ListItem disablePadding>
-        <ListItemButton onClick={navigate("lacak-bus")}>
+        <ListItemButton onClick={handleClick}>
           <ListItemText primary="Indramayu-Bandung" secondary="Today" />
           <ListItemIcon>
-            <StarIcon />
+            <DirectionsIcon />
           </ListItemIcon>
         </ListItemButton>
       </ListItem>

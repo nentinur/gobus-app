@@ -2,6 +2,7 @@ import { MapsBeranda } from "../GObusMaps";
 import { BookingKursi } from "../BookingKursi";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import BusMaps from "../GObusMaps/BusMap";
 
 export const Beranda = () => {
   return (
@@ -14,7 +15,7 @@ export const Beranda = () => {
         <Box sx={{ flexGrow: 1, padding: 2 }}>
           <BookingKursi />
         </Box>
-        <MapsBeranda />
+        <BusMaps />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -49,6 +49,12 @@ export const BookingKursi = () => {
             >
               <CloseIcon />
             </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Boooking Kursi
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              Booking
+            </Button>
           </Toolbar>
         </AppBar>
         <Box

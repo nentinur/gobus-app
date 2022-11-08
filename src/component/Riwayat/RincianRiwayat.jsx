@@ -1,7 +1,8 @@
 import { MapsBeranda } from "../GObusMaps";
 import { Typography, Box } from "@mui/material";
 import LacakBus from "../GObusMaps/LacakBus";
-export const RincianRiwayat = () => {
+
+export default function RincianRiwayat() {
   return (
     <div>
       <div>
@@ -15,4 +16,4 @@ export const RincianRiwayat = () => {
       </div>
     </div>
   );
-};
+}
