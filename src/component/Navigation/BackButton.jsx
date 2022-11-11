@@ -1,7 +1,7 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { AppBar, Toolbar, IconButton } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-export const BackButton = () => {
+export const BackButton = (props) => {
   const navigate = useNavigate();
   return (
     <div>
@@ -15,6 +15,9 @@ export const BackButton = () => {
           >
             <ArrowBackIcon />
           </IconButton>
+          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+            {props.titleBar}
+          </Typography>
         </Toolbar>
       </AppBar>
     </div>

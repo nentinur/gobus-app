@@ -1,42 +1,34 @@
 import * as React from "react";
 import {
   Button,
-  Typography,
   Box,
-  AppBar,
-  Toolbar,
-  IconButton,
   Dialog,
   Slide,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
 } from "@mui/material";
-
-import BookOnlineIcon from "@mui/icons-material/BookOnline";
-import CloseIcon from "@mui/icons-material/Close";
-
-import { FilterBus } from "./FilterBus";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Booking } from "../component/Booking";
+import { BookingButton } from "../component/Booking/BookingButton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const BookingKursi = () => {
+export const BookingTicket = (props) => {
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-
   const [open, setOpen] = React.useState(false);
   return (
     <>
-      <Button
-        onClick={handleClickOpen}
-        variant="outlined"
-        size="large"
-        startIcon={<BookOnlineIcon />}
-      >
-        Booking Kursi
+      <Button onClick={handleClickOpen} variant="contained" size="medium">
+        Booking
       </Button>
       <Dialog
         fullScreen
@@ -52,14 +44,11 @@ export const BookingKursi = () => {
               onClick={handleClose}
               aria-label="close"
             >
-              <CloseIcon />
+              <ArrowBackIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Boooking Kursi
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              Booking
-            </Button>
           </Toolbar>
         </AppBar>
         <Box
@@ -70,7 +59,8 @@ export const BookingKursi = () => {
           noValidate
           autoComplete="off"
         >
-          <FilterBus />
+          <Booking jam={props.jam} jurusan={props.jurusan} />
+          <BookingButton />
         </Box>
       </Dialog>
     </>

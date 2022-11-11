@@ -1,14 +1,15 @@
 import React from "react";
-import GObusAppBar from "./component/Navigation/GObusAppBar";
 import { GObusNavBar } from "./component/Navigation/GObusNavBar";
 import { Outlet } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
 
-import { HomePage } from "./component/Home";
-import History from "./component/History";
+import { HomePage } from "./page/HomePage";
+import { BookingPage } from "./page/BookingPage";
+import { History } from "./page/History";
 import DetailHistory from "./component/History/DetailHistory";
-import Chat from "./component/Chat";
+import Chat from "./page/Chat";
+import { FilterBus } from "./component/Booking/FilterBus";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
         path: "history/detail-history",
         element: <DetailHistory />,
       },
+      {
+        path: "filter-bus",
+        element: <FilterBus />,
+      },
     ],
   },
 ]);
@@ -51,7 +56,6 @@ const App = () => {
 function Layout() {
   return (
     <div>
-      <GObusAppBar />
       <Outlet />
       <GObusNavBar />
     </div>

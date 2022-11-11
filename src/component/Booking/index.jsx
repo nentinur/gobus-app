@@ -1,10 +1,39 @@
 import PlaceIcon from "@mui/icons-material/Place";
-import { TextField, IconButton } from "@mui/material";
-import { BackButton } from "../Navigation/BackButton";
-export const Booking = () => {
+import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
+import {
+  TextField,
+  IconButton,
+  ListItem,
+  ListItemAvatar,
+  Avatar,
+  ListItemText,
+} from "@mui/material";
+import { ListBus } from "../../Data";
+export const Booking = (props) => {
+  const dataJurusan = ListBus.filter(
+    (booking) =>
+      booking.keberangkatan === props.jam && booking.jurusan === props.jurusan
+  );
   return (
     <div>
-      <BackButton />
+      {dataJurusan.map((ListBus) => (
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <DirectionsBusIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText
+            primary={ListBus.jurusan}
+            secondary={
+              "Jam: " +
+              ListBus.keberangkatan +
+              " | Kursi Kosong: " +
+              ListBus.kursiKosong.length
+            }
+          />
+        </ListItem>
+      ))}
       <TextField
         id="outlined-number"
         label="Jumlah Kursi"

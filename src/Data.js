@@ -8,7 +8,7 @@ export const ListBus = [
   {
     noBus: "E1234WH",
     kursiKosong: [2, 6, 10, 12, 20, 22],
-    keberangkatan: "06:00",
+    keberangkatan: "10:00",
     jurusan: "Indramayu - Bandung",
   },
   {
