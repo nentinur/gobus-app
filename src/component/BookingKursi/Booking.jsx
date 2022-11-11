@@ -1,9 +1,10 @@
 import PlaceIcon from "@mui/icons-material/Place";
-import IconButton from "@mui/material/IconButton";
-import { TextField } from "@mui/material";
+import { TextField, IconButton } from "@mui/material";
+import { BackButton } from "../Navigation/BackButton";
 export const Booking = () => {
   return (
     <div>
+      <BackButton />
       <TextField
         id="outlined-number"
         label="Jumlah Kursi"

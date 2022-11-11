@@ -1,13 +1,14 @@
-import { GObusAppBar } from "./component/GObusAppBar";
-import { GObusNavBar } from "./component/GObusNavBar";
-import { Beranda } from "./component/Home";
-import Riwayat from "./component/Riwayat";
-import RincianRiwayat from "./component/Riwayat/RincianRiwayat";
-import Chat from "./component/Chat";
-import { Outlet } from "react-router-dom";
 import React from "react";
+import GObusAppBar from "./component/Navigation/GObusAppBar";
+import { GObusNavBar } from "./component/Navigation/GObusNavBar";
+import { Outlet } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
+
+import { HomePage } from "./component/Home";
+import History from "./component/History";
+import DetailHistory from "./component/History/DetailHistory";
+import Chat from "./component/Chat";
 
 const router = createBrowserRouter([
   {
@@ -19,19 +20,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Beranda />,
+        element: <HomePage />,
       },
       {
-        path: "riwayat",
-        element: <Riwayat />,
+        path: "history",
+        element: <History />,
       },
       {
         path: "chat",
         element: <Chat />,
       },
       {
-        path: "riwayat/lacak-bus",
-        element: <RincianRiwayat />,
+        path: "history/detail-history",
+        element: <DetailHistory />,
       },
     ],
   },

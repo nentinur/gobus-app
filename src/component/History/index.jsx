@@ -1,17 +1,18 @@
 import * as React from "react";
-import { useEffect } from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import DirectionsIcon from "@mui/icons-material/Directions";
 
 const Riwayat = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("lacak-bus");
+    navigate("detail-history");
   };
   return (
     <List

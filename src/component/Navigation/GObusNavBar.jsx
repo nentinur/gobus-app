@@ -1,12 +1,13 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import {
+  Box,
+  BottomNavigation,
+  BottomNavigationAction,
+  Paper,
+} from "@mui/material";
 import RestoreIcon from "@mui/icons-material/Restore";
 import ChatIcon from "@mui/icons-material/Chat";
 import HomeIcon from "@mui/icons-material/Home";
-import Paper from "@mui/material/Paper";
-import Riwayat from "../Riwayat";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const GObusNavBar = () => {
@@ -20,9 +21,9 @@ export const GObusNavBar = () => {
   const location = useLocation();
   console.log(location.pathname.split("/"));
   switch (location.pathname.split("/")[1]) {
-    case "riwayat":
-      if (value !== "riwayat") {
-        setValue("riwayat");
+    case "history":
+      if (value !== "history") {
+        setValue("history");
       }
       break;
     case "chat":
@@ -31,7 +32,6 @@ export const GObusNavBar = () => {
       }
       break;
   }
-
   return (
     <Box sx={{ pb: 7 }}>
       <Paper
@@ -40,7 +40,7 @@ export const GObusNavBar = () => {
       >
         <BottomNavigation showLabels value={value} onChange={handleChange}>
           <BottomNavigationAction
-            value={"riwayat"}
+            value={"history"}
             label="Riwayat"
             icon={<RestoreIcon />}
           />

@@ -1,13 +1,18 @@
 import * as React from "react";
-import { Button, Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
+import {
+  Button,
+  Typography,
+  Box,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Dialog,
+  Slide,
+} from "@mui/material";
+
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
-import Dialog from "@mui/material/Dialog";
 import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
+
 import { FilterBus } from "./FilterBus";
 
 const Transition = React.forwardRef(function Transition(props, ref) {

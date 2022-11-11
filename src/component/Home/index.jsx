@@ -1,10 +1,9 @@
-import { MapsBeranda } from "../GObusMaps";
 import { BookingKursi } from "../BookingKursi";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import BusMaps from "../GObusMaps/BusMap";
+import GObusMaps from "../GObusMaps";
 
-export const Beranda = () => {
+export const HomePage = () => {
   return (
     <div>
       <Box sx={{ flexGrow: 1, padding: 2 }}>
@@ -15,7 +14,7 @@ export const Beranda = () => {
         <Box sx={{ flexGrow: 1, padding: 2 }}>
           <BookingKursi />
         </Box>
-        <BusMaps />
+        <GObusMaps />
       </div>
     </div>
   );

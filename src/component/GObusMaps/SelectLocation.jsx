@@ -12,8 +12,7 @@ Leaflet.Icon.Default.mergeOptions({
   iconUrl: require("leaflet/dist/images/marker-icon.png"),
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
-
-export default function BusMaps() {
+export default function SelectLocation() {
   return (
     <MapContainer
       center={[49.1951, 16.6068]}
