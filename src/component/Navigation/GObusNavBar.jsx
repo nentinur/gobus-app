@@ -5,7 +5,7 @@ import {
   BottomNavigationAction,
   Paper,
 } from "@mui/material";
-import RestoreIcon from "@mui/icons-material/Restore";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatIcon from "@mui/icons-material/Chat";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -21,9 +21,9 @@ export const GObusNavBar = () => {
   const location = useLocation();
   console.log(location.pathname.split("/"));
   switch (location.pathname.split("/")[1]) {
-    case "history":
-      if (value !== "history") {
-        setValue("history");
+    case "profile":
+      if (value !== "profile") {
+        setValue("profile");
       }
       break;
     case "chat":
@@ -40,9 +40,9 @@ export const GObusNavBar = () => {
       >
         <BottomNavigation showLabels value={value} onChange={handleChange}>
           <BottomNavigationAction
-            value={"history"}
-            label="Riwayat"
-            icon={<RestoreIcon />}
+            value="chat"
+            label="Chat"
+            icon={<ChatIcon />}
           />
           <BottomNavigationAction
             value=""
@@ -50,9 +50,9 @@ export const GObusNavBar = () => {
             icon={<HomeIcon />}
           />
           <BottomNavigationAction
-            value="chat"
-            label="Chat"
-            icon={<ChatIcon />}
+            value={"profile"}
+            label="Profil"
+            icon={<AccountCircleIcon />}
           />
         </BottomNavigation>
       </Paper>

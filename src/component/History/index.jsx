@@ -9,10 +9,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import DirectionsIcon from "@mui/icons-material/Directions";
 
-const Riwayat = () => {
+const History = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("detail-history");
+    navigate("history");
   };
   return (
     <List
@@ -38,4 +38,4 @@ const Riwayat = () => {
     </List>
   );
 };
-export default Riwayat;
+export default History;

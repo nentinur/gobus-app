@@ -5,11 +5,12 @@ import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
 
 import { HomePage } from "./page/HomePage";
-import { BookingPage } from "./page/BookingPage";
-import { History } from "./page/History";
 import DetailHistory from "./component/History/DetailHistory";
 import Chat from "./page/Chat";
 import { FilterBus } from "./component/Booking/FilterBus";
+import MapComponent from "./component/GObusMaps/SelectLocation";
+import { Login } from "./component/Login";
+import { ProfilePage } from "./page/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -24,20 +25,28 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "history",
-        element: <History />,
-      },
-      {
         path: "chat",
         element: <Chat />,
       },
       {
-        path: "history/detail-history",
+        path: "profile/history",
         element: <DetailHistory />,
       },
       {
         path: "filter-bus",
         element: <FilterBus />,
+      },
+      {
+        path: "find",
+        element: <MapComponent />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "profile",
+        element: <ProfilePage />,
       },
     ],
   },

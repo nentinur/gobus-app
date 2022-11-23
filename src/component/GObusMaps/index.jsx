@@ -16,7 +16,7 @@ Leaflet.Icon.Default.mergeOptions({
 export default function GObusMaps() {
   return (
     <MapContainer
-      center={[49.1951, 16.6068]}
+      center={[-6.9316648, 107.7229107]}
       zoom={20}
       style={{ height: "400px", margin: "10px", zIndex: 0 }}
     >
