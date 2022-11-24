@@ -1,4 +1,4 @@
-import PlaceIcon from "@mui/icons-material/Place";
+import React, { useState } from "react";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import {
   TextField,
@@ -9,11 +9,19 @@ import {
   ListItemText,
 } from "@mui/material";
 import { ListBus } from "../../Data";
+import { SearchLocation1 } from "../GObusMaps/SearchLocation";
+import { SearchLocation2 } from "../GObusMaps/SearchLocation";
+
 export const Booking = (props) => {
   const dataJurusan = ListBus.filter(
     (booking) =>
       booking.keberangkatan === props.jam && booking.jurusan === props.jurusan
   );
+
+  const [selectPosition1, setSelectPosition1] = useState(null);
+  const [selectPosition2, setSelectPosition2] = useState(null);
+  console.log("titik naik: " + selectPosition1);
+  console.log("titik turun: " + selectPosition2);
   return (
     <div>
       {dataJurusan.map((ListBus) => (
@@ -58,25 +66,14 @@ export const Booking = (props) => {
           shrink: true,
         }}
       />
-      <TextField
-        id="standard-search"
-        label="Titik Naik"
-        type="search"
-        variant="standard"
-        size="small"
+      <SearchLocation1
+        selectPosition1={selectPosition1}
+        setSelectPosition1={setSelectPosition1}
       />
-      <IconButton aria-label="titik-naik">
-        <PlaceIcon />
-      </IconButton>
-      <TextField
-        id="standard-search"
-        label="Titik Turun"
-        type="search"
-        variant="standard"
+      <SearchLocation2
+        selectPosition2={selectPosition2}
+        setSelectPosition2={setSelectPosition2}
       />
-      <IconButton aria-label="titik-turun">
-        <PlaceIcon />
-      </IconButton>
     </div>
   );
 };
