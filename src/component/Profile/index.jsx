@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Avatar, Card, CardHeader, Button } from "@mui/material";
+import { Avatar, Card, CardHeader, IconButton } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const Profile = () => {
   return (
@@ -8,9 +9,9 @@ const Profile = () => {
         <CardHeader
           avatar={<Avatar>P</Avatar>}
           action={
-            <Button variant="contained" size="small">
-              Logout
-            </Button>
+            <IconButton color="primary" aria-label="add to shopping cart">
+              <LogoutIcon />
+            </IconButton>
           }
           title="Pengguna"
           subheader="@pengguna_01"

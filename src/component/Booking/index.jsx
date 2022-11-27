@@ -2,26 +2,44 @@ import React, { useState } from "react";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import {
   TextField,
-  IconButton,
   ListItem,
   ListItemAvatar,
   Avatar,
   ListItemText,
+  Dialog,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Slide,
+  Button,
 } from "@mui/material";
 import { ListBus } from "../../Data";
-import { SearchLocation1 } from "../GObusMaps/SearchLocation";
-import { SearchLocation2 } from "../GObusMaps/SearchLocation";
 
+import CloseIcon from "@mui/icons-material/Close";
+
+import GObusMaps from "../GObusMaps";
+import { SearchLocation } from "../GObusMaps/SearchLocation";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 export const Booking = (props) => {
   const dataJurusan = ListBus.filter(
     (booking) =>
       booking.keberangkatan === props.jam && booking.jurusan === props.jurusan
   );
+  const [selectPosition, setSelectPosition] = useState(null);
+  console.log("titik naik: " + selectPosition);
+  const [open, setOpen] = React.useState(false);
 
-  const [selectPosition1, setSelectPosition1] = useState(null);
-  const [selectPosition2, setSelectPosition2] = useState(null);
-  console.log("titik naik: " + selectPosition1);
-  console.log("titik turun: " + selectPosition2);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
       {dataJurusan.map((ListBus) => (
@@ -66,14 +84,31 @@ export const Booking = (props) => {
           shrink: true,
         }}
       />
-      <SearchLocation1
-        selectPosition1={selectPosition1}
-        setSelectPosition1={setSelectPosition1}
-      />
-      <SearchLocation2
-        selectPosition2={selectPosition2}
-        setSelectPosition2={setSelectPosition2}
-      />
+      <Button onClick={handleClickOpen}>Pilih Lokasi</Button>
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: "relative" }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <SearchLocation
+          selectPosition={selectPosition}
+          setSelectPosition={setSelectPosition}
+        />
+        <GObusMaps />
+      </Dialog>
     </div>
   );
 };

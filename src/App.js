@@ -8,7 +8,6 @@ import { HomePage } from "./page/HomePage";
 import DetailHistory from "./component/History/DetailHistory";
 import Chat from "./page/Chat";
 import { FilterBus } from "./component/Booking/FilterBus";
-import MapComponent from "./component/GObusMaps/SelectLocation";
 import { Login } from "./component/Login";
 import { ProfilePage } from "./page/ProfilePage";
 
@@ -35,10 +34,6 @@ const router = createBrowserRouter([
       {
         path: "filter-bus",
         element: <FilterBus />,
-      },
-      {
-        path: "find",
-        element: <MapComponent />,
       },
       {
         path: "login",
