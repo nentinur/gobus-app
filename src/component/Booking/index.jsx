@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
+import DirectionsIcon from "@mui/icons-material/Directions";
 import {
   TextField,
   ListItem,
@@ -16,7 +17,7 @@ import {
 import { ListBus } from "../../Data";
 
 import CloseIcon from "@mui/icons-material/Close";
-
+import Maps from "../GObusMaps/MapComponent";
 import GObusMaps from "../GObusMaps";
 import { SearchLocation } from "../GObusMaps/SearchLocation";
 
@@ -28,8 +29,10 @@ export const Booking = (props) => {
     (booking) =>
       booking.keberangkatan === props.jam && booking.jurusan === props.jurusan
   );
-  const [selectPosition, setSelectPosition] = useState(null);
-  console.log("titik naik: " + selectPosition);
+  const [selectTitikNaik, setSelectTitikNaik] = useState(null);
+  const [selectTitikTurun, setSelectTitikTurun] = useState(null);
+  console.log("titik naik: ", selectTitikNaik);
+  console.log("titik turun: ", selectTitikTurun);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -84,14 +87,21 @@ export const Booking = (props) => {
           shrink: true,
         }}
       />
-      <Button onClick={handleClickOpen}>Pilih Lokasi</Button>
+      <Button
+        sx={{ margin: 2 }}
+        variant="outlined"
+        startIcon={<DirectionsIcon />}
+        onClick={handleClickOpen}
+      >
+        Pilih Lokasi
+      </Button>
       <Dialog
         fullScreen
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative" }}>
+        <AppBar sx={{ marginBottom: 2, position: "relative" }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -104,10 +114,19 @@ export const Booking = (props) => {
           </Toolbar>
         </AppBar>
         <SearchLocation
-          selectPosition={selectPosition}
-          setSelectPosition={setSelectPosition}
+          label="Titik Naik"
+          selectPosition={selectTitikNaik}
+          setSelectPosition={setSelectTitikNaik}
         />
-        <GObusMaps />
+        <SearchLocation
+          label="Titik Turun"
+          selectPosition={selectTitikTurun}
+          setSelectPosition={setSelectTitikTurun}
+        />
+        <Button size="small" variant="contained">
+          Cari Rute
+        </Button>
+        <Maps />
       </Dialog>
     </div>
   );

@@ -28,7 +28,7 @@ export const SearchLocation = (props) => {
       <TextField
         sx={{ margin: 1 }}
         id="outlined"
-        label="Titik Naik"
+        label={props.label}
         type="text"
         InputLabelProps={{
           shrink: true,
@@ -74,7 +74,9 @@ export const SearchLocation = (props) => {
                 <ListItem
                   button
                   onClick={() => {
-                    setSelectPosition(item?.display_name);
+                    setSearchLoc(item.display_name);
+                    setListPlace([]);
+                    setSelectPosition(item);
                   }}
                 >
                   <ListItemIcon>
