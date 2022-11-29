@@ -17,7 +17,7 @@ import {
 import { ListBus } from "../../Data";
 
 import CloseIcon from "@mui/icons-material/Close";
-import Maps from "../GObusMaps/MapComponent";
+import Maps from "../GObusMaps/RouteMaps";
 import GObusMaps from "../GObusMaps";
 import { SearchLocation } from "../GObusMaps/SearchLocation";
 
@@ -31,6 +31,10 @@ export const Booking = (props) => {
   );
   const [selectTitikNaik, setSelectTitikNaik] = useState(null);
   const [selectTitikTurun, setSelectTitikTurun] = useState(null);
+  const latNaik = selectTitikNaik?.lat;
+  const lonNaik = selectTitikNaik?.lon;
+  const latTurun = selectTitikTurun?.lat;
+  const lonTurun = selectTitikTurun?.lon;
   console.log("titik naik: ", selectTitikNaik);
   console.log("titik turun: ", selectTitikTurun);
   const [open, setOpen] = React.useState(false);
@@ -126,7 +130,12 @@ export const Booking = (props) => {
         <Button size="small" variant="contained">
           Cari Rute
         </Button>
-        <Maps />
+        <Maps
+          latNaik={latNaik}
+          lonNaik={lonNaik}
+          latTurun={latTurun}
+          lonTurun={lonTurun}
+        />
       </Dialog>
     </div>
   );

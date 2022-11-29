@@ -29,7 +29,7 @@ export default function GObusMaps() {
   );
 }
 
-function LocationMarker() {
+export function LocationMarker() {
   const [position, setPosition] = useState(null);
 
   const map = useMap();
