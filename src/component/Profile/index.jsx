@@ -1,15 +1,39 @@
 import * as React from "react";
-import { Avatar, Card, CardHeader, IconButton } from "@mui/material";
+import {
+  Avatar,
+  Card,
+  CardHeader,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const Profile = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div>
       <Card sx={{ maxWidth: "100%" }}>
         <CardHeader
           avatar={<Avatar>P</Avatar>}
           action={
-            <IconButton color="primary" aria-label="add to shopping cart">
+            <IconButton
+              color="primary"
+              aria-label="logout"
+              onClick={handleClickOpen}
+            >
               <LogoutIcon />
             </IconButton>
           }
@@ -17,6 +41,20 @@ const Profile = () => {
           subheader="@pengguna_01"
         />
       </Card>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle id="alert-dialog-title">Keluar</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Yakin mau keluar?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Batal</Button>
+          <Button onClick={handleClose} autoFocus>
+            Ya
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

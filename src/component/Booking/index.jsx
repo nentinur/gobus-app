@@ -127,9 +127,6 @@ export const Booking = (props) => {
           selectPosition={selectTitikTurun}
           setSelectPosition={setSelectTitikTurun}
         />
-        <Button size="small" variant="contained">
-          Cari Rute
-        </Button>
         <Maps
           latNaik={latNaik}
           lonNaik={lonNaik}

@@ -9,51 +9,60 @@ import {
   Link,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
+export const SignUp = () => {
   const paperStyle = {
     padding: 20,
-    height: "70vh",
     width: 280,
     margin: "20px auto",
   };
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(-1);
+  };
   return (
-    <Grid>
-      <Paper elevation={10} style={paperStyle}>
-        <Grid align="center">
-          <Avatar>
-            <LockOutlinedIcon />
-          </Avatar>
-          <h2>Login</h2>
-        </Grid>
-        <TextField
-          style={{ marginBottom: 5 }}
-          label="Username"
-          placeholder="Enter username"
-          fullWidth
-          required
-        />
-        <TextField
-          style={{ marginBottom: 5 }}
-          label="Password"
-          placeholder="Enter password"
-          type="password"
-          fullWidth
-          required
-        />
-        <Button
-          style={{ marginBottom: 5 }}
-          type="submit"
-          color="primary"
-          variant="contained"
-          fullWidth
-        >
-          Login
-        </Button>
-        <Typography>
-          Belum punya akun?<Link href="#">Daftar</Link>
-        </Typography>
-      </Paper>
-    </Grid>
+    <Paper elevation={10} style={paperStyle}>
+      <Grid align="center">
+        <Avatar>
+          <LockOutlinedIcon />
+        </Avatar>
+        <h2>Login</h2>
+      </Grid>
+      <TextField
+        style={{ marginBottom: 5 }}
+        label="Nama"
+        placeholder="Masukkan Nama"
+        fullWidth
+        required
+      />
+      <TextField
+        style={{ marginBottom: 5 }}
+        label="No Telpon"
+        placeholder="masukkan No Telpon"
+        fullWidth
+        required
+      />
+      <TextField
+        style={{ marginBottom: 5 }}
+        label="Password"
+        placeholder="Masukkan Password"
+        type="password"
+        fullWidth
+        required
+      />
+      <Button
+        style={{ marginBottom: 5 }}
+        type="submit"
+        color="primary"
+        variant="contained"
+        fullWidth
+      >
+        Daftar
+      </Button>
+      <Typography>
+        Sudah punya akun?<Button onClick={handleClick}>Login</Button>
+      </Typography>
+    </Paper>
   );
 };

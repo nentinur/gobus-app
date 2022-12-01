@@ -3,11 +3,15 @@ import Profile from "../component/Profile";
 import History from "../component/History";
 
 import { Paper, Typography } from "@mui/material";
+import { LoginButton } from "../component/Login/LoginButton";
 
 export const ProfilePage = () => {
   return (
     <div>
       <GObusAppBar />
+      <Paper elevation={3} sx={{ margin: 3 }}>
+        <LoginButton />
+      </Paper>
       <Paper elevation={3} sx={{ margin: 3 }}>
         <Profile />
       </Paper>

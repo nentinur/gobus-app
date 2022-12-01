@@ -24,26 +24,22 @@ export default function TrackBus() {
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <LocationMarker />
+      <TrackMaps />
     </MapContainer>
   );
 }
 
-function LocationMarker() {
-  const [position, setPosition] = useState(null);
-
+function TrackMaps() {
   const map = useMap();
-
+  const [position, setPosition] = useState(null);
   useEffect(() => {
-    map.locate().on("locationfound", function (e) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-    });
-    return function cleanup() {
-      map.stopLocate();
-    };
+    setInterval(() => {
+      map.locate().on("locationfound", function (e) {
+        setPosition(e.latlng);
+        map.flyTo(e.latlng, map.getZoom());
+      });
+    }, 1000);
   }, [map]);
-
   return position === null ? null : (
     <Marker position={position}>
       <Popup>You are here</Popup>

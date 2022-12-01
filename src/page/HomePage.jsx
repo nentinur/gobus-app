@@ -3,6 +3,7 @@ import GObusMaps from "../component/GObusMaps";
 import GObusAppBar from "../component/Navigation/GObusAppBar";
 import { useNavigate } from "react-router-dom";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
+import TrackBus from "../component/GObusMaps/TrackBus";
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export const HomePage = () => {
             Booking Tiket
           </Button>
         </Box>
-        <GObusMaps />
+        <TrackBus />
       </div>
     </div>
   );

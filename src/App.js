@@ -6,10 +6,12 @@ import { createBrowserRouter } from "react-router-dom";
 
 import { HomePage } from "./page/HomePage";
 import DetailHistory from "./component/History/DetailHistory";
-import Chat from "./page/Chat";
 import { FilterBus } from "./component/Booking/FilterBus";
 import { Login } from "./component/Login";
 import { ProfilePage } from "./page/ProfilePage";
+import { SignUp } from "./component/SignUp";
+import ChatPage from "./page/ChatPage";
+import { Chat } from "./component/Chat";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,10 @@ const router = createBrowserRouter([
       },
       {
         path: "chat",
+        element: <ChatPage />,
+      },
+      {
+        path: "chat/detail",
         element: <Chat />,
       },
       {
@@ -36,8 +42,12 @@ const router = createBrowserRouter([
         element: <FilterBus />,
       },
       {
-        path: "login",
+        path: "profile/login",
         element: <Login />,
+      },
+      {
+        path: "profile/login/signup",
+        element: <SignUp />,
       },
       {
         path: "profile",
