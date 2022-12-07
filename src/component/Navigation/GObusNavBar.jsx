@@ -11,6 +11,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const GObusNavBar = () => {
+  // untuk routing
   const navigate = useNavigate();
   const [value, setValue] = React.useState("");
   const handleChange = (event, newValue) => {
@@ -18,8 +19,9 @@ export const GObusNavBar = () => {
     navigate(newValue);
   };
 
+  // untuk mengambil path di URL
   const location = useLocation();
-  console.log(location.pathname.split("/"));
+
   switch (location.pathname.split("/")[1]) {
     case "profile":
       if (value !== "profile") {

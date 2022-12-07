@@ -58,7 +58,7 @@ const FilteredBus = (props) => {
     <div>
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
         {props.dataJurusan?.map((ListBus) => (
-          <ListItem>
+          <ListItem key={ListBus.jurusan} value={ListBus.jurusan}>
             <ListItemButton>
               <ListItemAvatar>
                 <Avatar>

@@ -21,6 +21,11 @@ export const SignUp = () => {
   const handleClick = () => {
     navigate(-1);
   };
+
+  const [nama, setNama] = useState();
+  const [kontak, setKontak] = useState();
+  const [pass, setPass] = useState();
+
   return (
     <Paper elevation={10} style={paperStyle}>
       <Grid align="center">
@@ -33,6 +38,9 @@ export const SignUp = () => {
         style={{ marginBottom: 5 }}
         label="Nama"
         placeholder="Masukkan Nama"
+        onChange={(event) => {
+          setNama(event.target.value);
+        }}
         fullWidth
         required
       />
@@ -40,6 +48,9 @@ export const SignUp = () => {
         style={{ marginBottom: 5 }}
         label="No Telpon"
         placeholder="masukkan No Telpon"
+        onChange={(event) => {
+          setKontak(event.target.value);
+        }}
         fullWidth
         required
       />
@@ -48,6 +59,9 @@ export const SignUp = () => {
         label="Password"
         placeholder="Masukkan Password"
         type="password"
+        onChange={(event) => {
+          setPass(event.target.value);
+        }}
         fullWidth
         required
       />

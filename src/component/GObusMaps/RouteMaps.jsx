@@ -45,52 +45,55 @@ export default function Maps(props) {
 const RoutingMachine = (props) => {
   let latLng1 = L.latLng(props.latNaik, props.lonNaik);
   let latLng2 = L.latLng(props.latTurun, props.lonTurun);
-
-  let naik = new L.Routing.Waypoint(latLng1);
-  let turun = new L.Routing.Waypoint(latLng2);
-
   const map = useMap();
-  useEffect(() => {
-    L.Routing.control({
-      waypoints: [latLng1, latLng2],
-      lineOptions: {
-        styles: [
-          {
-            color: "blue",
-            weight: 4,
-            opacity: 0.7,
-          },
-        ],
-      },
-      routeWhileDragging: false,
-      addWaypoints: false,
-      fitSelectedRoutes: true,
-      showAlternatives: true,
-    }).addTo(map);
+  const { positionNaik, setPositionNaik } = props;
+  const { positionTurun, setPositionTurun } = props;
 
-    // let routeUs = L.Routing.osrmv1();
-    // routeUs.route([naik, turun], (err, routes) => {
-    //   if (!err) {
-    //     let best = 100000000000000;
-    //     let bestRoute = 0;
-    //     let i;
-    //     for (i in routes) {
-    //       if (routes[i].summary.totalDistance < best) {
-    //         bestRoute = i;
-    //         best = routes[i].summary.totalDistance;
-    //       }
-    //     }
-    //     console.log("best route", routes[bestRoute]);
-    //     L.Routing.line(routes[bestRoute], {
-    //       styles: [
-    //         {
-    //           color: "green",
-    //           weight: "10",
-    //         },
-    //       ],
-    //     }).addTo(map);
-    //   }
-    // });
-  }, []);
+  // let naik = new L.Routing.Waypoint(latLng1);
+  // let turun = new L.Routing.Waypoint(latLng2);
+  // let routeUs = L.Routing.osrmv1();
+  // routeUs.route([naik, turun], (err, routes) => {
+  //   if (!err) {
+  //     let best = 100000000000000;
+  //     let bestRoute = 0;
+  //     let i;
+  //     for (i in routes) {
+  //       if (routes[i].summary.totalDistance < best) {
+  //         bestRoute = i;
+  //         best = routes[i].summary.totalDistance;
+  //       }
+  //     }
+  //     console.log("best route", routes[bestRoute]);
+  //     L.Routing.line(routes[bestRoute], {
+  //       styles: [
+  //         {
+  //           color: "green",
+  //           weight: "10",
+  //         },
+  //       ],
+  //       routeWhileDragging: false,
+  //       addWaypoints: false,
+  //       fitSelectedRoutes: true,
+  //       showAlternatives: true,
+  //     }).addTo(map);
+  //   }
+  // });
+  L.Routing.control({
+    waypoints: [latLng1, latLng2],
+    lineOptions: {
+      styles: [
+        {
+          color: "blue",
+          weight: 4,
+          opacity: 0.7,
+        },
+      ],
+    },
+    routeWhileDragging: true,
+    addWaypoints: false,
+    fitSelectedRoutes: true,
+    showAlternatives: false,
+  }).addTo(map);
+
   return null;
 };

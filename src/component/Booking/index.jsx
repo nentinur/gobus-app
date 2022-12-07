@@ -19,30 +19,41 @@ import { ListBus } from "../../Data";
 import CloseIcon from "@mui/icons-material/Close";
 import Maps from "../GObusMaps/RouteMaps";
 import GObusMaps from "../GObusMaps";
-import { SearchLocation } from "../GObusMaps/SearchLocation";
+import { SearchLocation } from "../Booking/SearchLocation";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export const Booking = (props) => {
+  // fungsi filter bus
   const dataJurusan = ListBus.filter(
     (booking) =>
       booking.keberangkatan === props.jam && booking.jurusan === props.jurusan
   );
+  // untuk mengambil titik koordinat penumpang
   const [selectTitikNaik, setSelectTitikNaik] = useState(null);
   const [selectTitikTurun, setSelectTitikTurun] = useState(null);
   const latNaik = selectTitikNaik?.lat;
   const lonNaik = selectTitikNaik?.lon;
   const latTurun = selectTitikTurun?.lat;
   const lonTurun = selectTitikTurun?.lon;
-  console.log("titik naik: ", selectTitikNaik);
-  console.log("titik turun: ", selectTitikTurun);
   const [open, setOpen] = React.useState(false);
 
+  // data pesanan
+  const [jumlahKursi, setJumlahKursi] = useState();
+  const [nama, setNama] = useState();
+  const [kontak, setKontak] = useState();
+
+  console.log("jumlah kursi: " + jumlahKursi);
+  console.log("nama: " + nama);
+  console.log("kontak: " + kontak);
+  console.log("titik naik: " + latNaik + " , " + lonNaik);
+  console.log("titik turun: " + latTurun + " , " + lonTurun);
+
+  // untuk membuka dan menutup dialog Pilih Rute
   const handleClickOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -71,14 +82,17 @@ export const Booking = (props) => {
         id="outlined-number"
         label="Jumlah Kursi"
         type="number"
-        InputLabelProps={{
-          shrink: true,
+        onChange={(event) => {
+          setJumlahKursi(event.target.value);
         }}
       />
       <TextField
         id="outlined"
         label="Nama"
         type="text"
+        onChange={(event) => {
+          setNama(event.target.value);
+        }}
         InputLabelProps={{
           shrink: true,
         }}
@@ -87,6 +101,9 @@ export const Booking = (props) => {
         id="outlined"
         label="Nomor HP/WA"
         type="text"
+        onChange={(event) => {
+          setKontak(event.target.value);
+        }}
         InputLabelProps={{
           shrink: true,
         }}

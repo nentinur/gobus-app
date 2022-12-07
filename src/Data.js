@@ -66,3 +66,11 @@ export const jamKeberangkatan = [
     label: "16:00",
   },
 ];
+
+export const Penumpang = [
+  {
+    nama: "Nenti",
+    kontak: "087745677969",
+    pass: "nenti",
+  },
+];
