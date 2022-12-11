@@ -2,70 +2,128 @@ import React from "react";
 import {
   Grid,
   Paper,
-  Avatar,
   TextField,
   Button,
   Typography,
-  Link,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 export const Login = () => {
-  const paperStyle = {
-    padding: 20,
-    width: 280,
-    margin: "20px auto",
+  // mengirimkan value form login
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("https://localhost:3100/login", {
+        kontak: values.kontak,
+        pass: values.pass,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+      })
+      .catch((err) => console.error(err));
   };
+
+  // show password
+  const handlePassVisibilty = () => {
+    setValues({
+      ...values,
+      showPass: !values.showPass,
+    });
+  };
+
+  //untuk pindah ke halaman sign up
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("signup");
   };
 
-  const [kontak, setKontak] = useState();
-  const [pass, setPass] = useState();
+  // state untuk menampung value form login
+  const [values, setValues] = useState({
+    kontak: "",
+    pass: "",
+    showPass: false,
+  });
+  console.log(values);
 
   return (
-    <Paper elevation={10} style={paperStyle}>
-      <Grid align="center">
-        <Avatar>
-          <LockOutlinedIcon />
-        </Avatar>
-        <h2>Login</h2>
-      </Grid>
-      <TextField
-        style={{ marginBottom: 5 }}
-        label="No Telpon"
-        placeholder="Masukkan No Telpon"
-        onChange={(event) => {
-          setKontak(event.target.value);
-        }}
-        fullWidth
-        required
-      />
-      <TextField
-        style={{ marginBottom: 5 }}
-        label="Password"
-        placeholder="Masukkan Password"
-        type="password"
-        onChange={(event) => {
-          setPass(event.target.value);
-        }}
-        fullWidth
-        required
-      />
-      <Button
-        style={{ marginBottom: 5 }}
-        type="submit"
-        color="primary"
-        variant="contained"
-        fullWidth
+    <div>
+      <Grid
+        container
+        spacing={2}
+        direction="column"
+        justifyContent="center"
+        style={{ minHeight: "100vh" }}
       >
-        Login
-      </Button>
-      <Typography>
-        Belum punya akun?<Button onClick={handleClick}>Daftar</Button>
-      </Typography>
-    </Paper>
+        <Paper sx={{ padding: 5 }}>
+          <form onSubmit={handleSubmit}>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <TextField
+                  type="text"
+                  fullWidth
+                  label="No. Telpon"
+                  placeholder="kontak"
+                  variant="outlined"
+                  required
+                  onChange={(e) =>
+                    setValues({ ...values, kontak: e.target.value })
+                  }
+                />
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  type={values.showPass ? "text" : "password"}
+                  fullWidth
+                  label="Password"
+                  placeholder="Password"
+                  variant="outlined"
+                  required
+                  onChange={(e) =>
+                    setValues({ ...values, pass: e.target.value })
+                  }
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handlePassVisibilty}
+                          aria-label="toggle password"
+                          edge="end"
+                        >
+                          {values.showPass ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+
+              <Grid item>
+                <Button type="submit" fullWidth variant="contained">
+                  Login
+                </Button>
+              </Grid>
+              <Grid item>
+                <Typography>
+                  Belum punya akun?
+                  <Button onClick={handleClick}>Daftar</Button>
+                </Typography>
+              </Grid>
+            </Grid>
+          </form>
+        </Paper>
+      </Grid>
+    </div>
   );
 };

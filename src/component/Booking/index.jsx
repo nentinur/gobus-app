@@ -20,11 +20,27 @@ import CloseIcon from "@mui/icons-material/Close";
 import Maps from "../GObusMaps/RouteMaps";
 import GObusMaps from "../GObusMaps";
 import { SearchLocation } from "../Booking/SearchLocation";
+import { BookingButton } from "../Booking/BookingButton";
+import axios from "axios";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export const Booking = (props) => {
+  // handle klik booking
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("https://localhost:3100/login", {
+        kontak: values.kontak,
+        pass: values.pass,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+      })
+      .catch((err) => console.error(err));
+  };
+
   // fungsi filter bus
   const dataJurusan = ListBus.filter(
     (booking) =>
@@ -40,15 +56,16 @@ export const Booking = (props) => {
   const [open, setOpen] = React.useState(false);
 
   // data pesanan
-  const [jumlahKursi, setJumlahKursi] = useState();
-  const [nama, setNama] = useState();
-  const [kontak, setKontak] = useState();
-
-  console.log("jumlah kursi: " + jumlahKursi);
-  console.log("nama: " + nama);
-  console.log("kontak: " + kontak);
-  console.log("titik naik: " + latNaik + " , " + lonNaik);
-  console.log("titik turun: " + latTurun + " , " + lonTurun);
+  const [values, setValues] = useState({
+    nama: "",
+    kontak: "",
+    jumlah_kursi: 0,
+    latNaik: latNaik,
+    lonNaik: lonNaik,
+    latTurun: latTurun,
+    lonTurun: lonTurun,
+  });
+  console.log(values);
 
   // untuk membuka dan menutup dialog Pilih Rute
   const handleClickOpen = () => {
@@ -78,44 +95,37 @@ export const Booking = (props) => {
           />
         </ListItem>
       ))}
-      <TextField
-        id="outlined-number"
-        label="Jumlah Kursi"
-        type="number"
-        onChange={(event) => {
-          setJumlahKursi(event.target.value);
-        }}
-      />
-      <TextField
-        id="outlined"
-        label="Nama"
-        type="text"
-        onChange={(event) => {
-          setNama(event.target.value);
-        }}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <TextField
-        id="outlined"
-        label="Nomor HP/WA"
-        type="text"
-        onChange={(event) => {
-          setKontak(event.target.value);
-        }}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <Button
-        sx={{ margin: 2 }}
-        variant="outlined"
-        startIcon={<DirectionsIcon />}
-        onClick={handleClickOpen}
-      >
-        Pilih Lokasi
-      </Button>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          id="outlined-number"
+          label="Jumlah Kursi"
+          type="number"
+          onChange={(e) =>
+            setValues({ ...values, jumlah_kursi: e.target.value })
+          }
+        />
+        <TextField
+          id="outlined"
+          label="Nama"
+          type="text"
+          onChange={(e) => setValues({ ...values, nama: e.target.value })}
+        />
+        <TextField
+          id="outlined"
+          label="Nomor HP/WA"
+          type="text"
+          onChange={(e) => setValues({ ...values, kontak: e.target.value })}
+        />
+        <Button
+          sx={{ margin: 2 }}
+          variant="outlined"
+          startIcon={<DirectionsIcon />}
+          onClick={handleClickOpen}
+        >
+          Pilih Lokasi
+        </Button>
+        <BookingButton />
+      </form>
       <Dialog
         fullScreen
         open={open}

@@ -67,8 +67,9 @@ const RoutingMachine = (props) => {
   //     L.Routing.line(routes[bestRoute], {
   //       styles: [
   //         {
-  //           color: "green",
-  //           weight: "10",
+  //           color: "blue",
+  //        weight: 4,
+  //       opacity: 0.7,
   //         },
   //       ],
   //       routeWhileDragging: false,
@@ -78,6 +79,7 @@ const RoutingMachine = (props) => {
   //     }).addTo(map);
   //   }
   // });
+
   L.Routing.control({
     waypoints: [latLng1, latLng2],
     lineOptions: {
@@ -90,9 +92,6 @@ const RoutingMachine = (props) => {
       ],
     },
     routeWhileDragging: true,
-    addWaypoints: false,
-    fitSelectedRoutes: true,
-    showAlternatives: false,
   }).addTo(map);
 
   return null;
