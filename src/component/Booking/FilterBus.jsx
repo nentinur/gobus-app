@@ -13,16 +13,59 @@ import {
 
 import DirectionsBus from "@mui/icons-material/DirectionsBus";
 
-import { ListBus, jurusanBus } from "../../Data";
 import { BackButton } from "../Navigation/BackButton";
 import { BookingTicket } from "../../page/BookingPage";
+
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
 export const FilterBus = () => {
   const [jurusan, setJurusan] = React.useState("");
   const PilihJurusan = (event) => {
     setJurusan(event.target.value);
   };
-  const dataJurusan = ListBus.filter((bus) => bus.jurusan === jurusan);
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3100/bus")
+      .then(function (response) {
+        // handle success
+        console.log(response.data);
+        setData(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }, []);
+
+  // pilihan jurusan
+  const jurusanBus = [
+    {
+      value: "bdg-imy",
+      label: "Bandung - Indramayu",
+    },
+    {
+      value: "imy-bdg",
+      label: "Indramayu - Bandung",
+    },
+    {
+      value: "bdg-kng",
+      label: "Bandung - Kuningan",
+    },
+    {
+      value: "imy-tsk",
+      label: "Indramayu - Tasikmalaya",
+    },
+  ];
+
+  // filter jurusan bus
+  // const dataJurusan = ListBus.filter((bus) => bus.kode_jurusan === jurusan);
   return (
     <div>
       <BackButton />
@@ -42,12 +85,12 @@ export const FilterBus = () => {
           onChange={PilihJurusan}
         >
           {jurusanBus.map((option) => (
-            <MenuItem key={option.label} value={option.label}>
+            <MenuItem key={option.label} value={option.value}>
               {option.label}
             </MenuItem>
           ))}
         </TextField>
-        <FilteredBus dataJurusan={dataJurusan} />
+        <FilteredBus data={data} />
       </Box>
     </div>
   );
@@ -57,8 +100,8 @@ const FilteredBus = (props) => {
   return (
     <div>
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-        {props.dataJurusan?.map((ListBus) => (
-          <ListItem key={ListBus.jurusan} value={ListBus.jurusan}>
+        {props.data?.map((ListBus) => (
+          <ListItem key={ListBus.kode_jurusan} value={ListBus.kode_jurusan}>
             <ListItemButton>
               <ListItemAvatar>
                 <Avatar>
@@ -78,9 +121,9 @@ const FilteredBus = (props) => {
                   primary={ListBus.jurusan}
                   secondary={
                     "Jam: " +
-                    ListBus.keberangkatan +
+                    ListBus.jam +
                     " | Kursi Kosong: " +
-                    ListBus.kursiKosong.length
+                    ListBus.kursi_kosong
                   }
                 />
                 <BookingTicket

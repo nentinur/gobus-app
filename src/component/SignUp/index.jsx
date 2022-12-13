@@ -20,7 +20,8 @@ export const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://localhost:3100/login", {
+      .post("https://localhost:3100/user", {
+        nama: values.nama,
         kontak: values.kontak,
         pass: values.pass,
       })
