@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import {
@@ -41,10 +41,28 @@ export const Booking = (props) => {
       .catch((err) => console.error(err));
   };
 
+  //get list bus dari API
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3100/bus")
+      .then(function (response) {
+        // handle success
+        console.log(response.data);
+        setData(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }, []);
+
   // fungsi filter bus
-  const dataJurusan = ListBus.filter(
-    (booking) =>
-      booking.keberangkatan === props.jam && booking.jurusan === props.jurusan
+  const dataJurusan = data.filter(
+    (booking) => booking.jam === props.jam && booking.jurusan === props.jurusan
   );
   // untuk mengambil titik koordinat penumpang
   const [selectTitikNaik, setSelectTitikNaik] = useState(null);
@@ -59,7 +77,7 @@ export const Booking = (props) => {
   const [values, setValues] = useState({
     nama: "",
     kontak: "",
-    jumlah_kursi: 0,
+    jumlah_kursi: 1,
     latNaik: latNaik,
     lonNaik: lonNaik,
     latTurun: latTurun,
@@ -87,10 +105,7 @@ export const Booking = (props) => {
           <ListItemText
             primary={ListBus.jurusan}
             secondary={
-              "Jam: " +
-              ListBus.keberangkatan +
-              " | Kursi Kosong: " +
-              ListBus.kursiKosong.length
+              "Jam: " + ListBus.jam + " | Kursi Kosong: " + ListBus.kursi_kosong
             }
           />
         </ListItem>

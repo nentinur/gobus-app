@@ -9,6 +9,7 @@ import {
   Avatar,
   TextField,
   MenuItem,
+  Typography,
 } from "@mui/material";
 
 import DirectionsBus from "@mui/icons-material/DirectionsBus";
@@ -65,7 +66,7 @@ export const FilterBus = () => {
   ];
 
   // filter jurusan bus
-  // const dataJurusan = ListBus.filter((bus) => bus.kode_jurusan === jurusan);
+  const dataJurusan = data.filter((bus) => bus.kode_jurusan === jurusan);
   return (
     <div>
       <BackButton />
@@ -90,7 +91,7 @@ export const FilterBus = () => {
             </MenuItem>
           ))}
         </TextField>
-        <FilteredBus data={data} />
+        <FilteredBus data={dataJurusan} />
       </Box>
     </div>
   );
@@ -117,18 +118,20 @@ const FilteredBus = (props) => {
                 noValidate
                 autoComplete="off"
               >
-                <ListItemText
-                  primary={ListBus.jurusan}
-                  secondary={
-                    "Jam: " +
-                    ListBus.jam +
-                    " | Kursi Kosong: " +
-                    ListBus.kursi_kosong
-                  }
-                />
+                <ListItemText primary={ListBus.jurusan} />
+                <Typography variant="caption">
+                  Jam: {ListBus.jam} WIB
+                </Typography>
+                <Typography variant="caption">
+                  Kursi Kosong: {ListBus.kursi_kosong}
+                </Typography>
+                <Typography variant="caption">
+                  Tarif: {ListBus.tarif}
+                </Typography>
                 <BookingTicket
-                  jam={ListBus.keberangkatan}
+                  jam={ListBus.jam}
                   jurusan={ListBus.jurusan}
+                  tarif={ListBus.tarif}
                 />
               </Box>
             </ListItemButton>

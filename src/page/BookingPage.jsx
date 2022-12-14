@@ -60,7 +60,7 @@ export const BookingTicket = (props) => {
           autoComplete="off"
         >
           <Booking jam={props.jam} jurusan={props.jurusan} />
-          <BookingButton />
+          <BookingButton tarif={props.tarif} />
         </Box>
       </Dialog>
     </>
