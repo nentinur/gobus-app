@@ -14,12 +14,8 @@ import {
   Slide,
   Button,
 } from "@mui/material";
-import { ListBus } from "../../Data";
-
 import CloseIcon from "@mui/icons-material/Close";
 import Maps from "../GObusMaps/RouteMaps";
-import GObusMaps from "../GObusMaps";
-import { SearchLocation } from "../Booking/SearchLocation";
 import { BookingButton } from "../Booking/BookingButton";
 import axios from "axios";
 
@@ -41,6 +37,32 @@ export const Booking = (props) => {
       .catch((err) => console.error(err));
   };
 
+  // get titik berangat dan berhenti bus
+  const [latAwal, setLatAwal] = useState();
+  const [lonAwal, setLonAwal] = useState();
+  const [latAkhir, setLatAkhir] = useState();
+  const [lonAkhir, setLonAkhir] = useState();
+  useEffect(() => {
+    axios
+      .post("http://localhost:3100/posisi/rute", {
+        bus: props.bus,
+      })
+      .then(function (response) {
+        setLatAwal(response.data[0].lat_awal);
+        setLonAwal(response.data[0].lon_awal);
+        setLatAkhir(response.data[0].lat_akhir);
+        setLonAkhir(response.data[0].lon_akhir);
+        console.log("posisi awal: ", latAwal);
+        console.log("posisi akhir: ", lonAkhir);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  });
+
   //get list bus dari API
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -48,7 +70,7 @@ export const Booking = (props) => {
       .get("http://localhost:3100/bus")
       .then(function (response) {
         // handle success
-        console.log(response.data);
+        console.log("bus: ", response.data);
         setData(response.data);
       })
       .catch(function (error) {
@@ -67,21 +89,14 @@ export const Booking = (props) => {
   // untuk mengambil titik koordinat penumpang
   const [selectTitikNaik, setSelectTitikNaik] = useState(null);
   const [selectTitikTurun, setSelectTitikTurun] = useState(null);
-  const latNaik = selectTitikNaik?.lat;
-  const lonNaik = selectTitikNaik?.lon;
-  const latTurun = selectTitikTurun?.lat;
-  const lonTurun = selectTitikTurun?.lon;
   const [open, setOpen] = React.useState(false);
 
   // data pesanan
   const [values, setValues] = useState({
+    no_bus: props.bus,
     nama: "",
     kontak: "",
     jumlah_kursi: 1,
-    latNaik: latNaik,
-    lonNaik: lonNaik,
-    latTurun: latTurun,
-    lonTurun: lonTurun,
   });
   console.log(values);
 
@@ -136,6 +151,7 @@ export const Booking = (props) => {
           variant="outlined"
           startIcon={<DirectionsIcon />}
           onClick={handleClickOpen}
+          no_bus
         >
           Pilih Lokasi
         </Button>
@@ -159,21 +175,12 @@ export const Booking = (props) => {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <SearchLocation
-          label="Titik Naik"
-          selectPosition={selectTitikNaik}
-          setSelectPosition={setSelectTitikNaik}
-        />
-        <SearchLocation
-          label="Titik Turun"
-          selectPosition={selectTitikTurun}
-          setSelectPosition={setSelectTitikTurun}
-        />
+
         <Maps
-          latNaik={latNaik}
-          lonNaik={lonNaik}
-          latTurun={latTurun}
-          lonTurun={lonTurun}
+          latAwal={latAwal}
+          lonAwal={lonAwal}
+          latAkhir={latAkhir}
+          lonAkhir={lonAkhir}
         />
       </Dialog>
     </div>

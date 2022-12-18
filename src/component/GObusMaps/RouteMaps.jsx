@@ -1,6 +1,5 @@
 import L from "leaflet";
 import "leaflet-routing-machine";
-import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
@@ -9,7 +8,6 @@ import Leaflet from "leaflet";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
-import { LocationMarker } from ".";
 
 Leaflet.Icon.Default.imagePath = "../node_modules/leaflet";
 
@@ -33,21 +31,32 @@ export default function Maps(props) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <RoutingMachine
-        latNaik={props.latNaik}
-        lonNaik={props.lonNaik}
-        latTurun={props.latTurun}
-        lonTurun={props.lonTurun}
+        latNaik={props.latAwal}
+        lonNaik={props.lonAwal}
+        latTurun={props.latAkhir}
+        lonTurun={props.lonAkhir}
       />
     </MapContainer>
   );
 }
 
 const RoutingMachine = (props) => {
-  let latLng1 = L.latLng(props.latNaik, props.lonNaik);
-  let latLng2 = L.latLng(props.latTurun, props.lonTurun);
   const map = useMap();
-  const { positionNaik, setPositionNaik } = props;
-  const { positionTurun, setPositionTurun } = props;
+  L.Routing.control({
+    waypoints: [
+      L.latLng(props.latNaik, props.lonNaik),
+      L.latLng(props.latTurun, props.lonTurun),
+    ],
+    lineOptions: {
+      styles: [
+        {
+          color: "blue",
+          weight: 4,
+          opacity: 0.7,
+        },
+      ],
+    },
+  }).addTo(map);
 
   // let naik = new L.Routing.Waypoint(latLng1);
   // let turun = new L.Routing.Waypoint(latLng2);
@@ -79,20 +88,6 @@ const RoutingMachine = (props) => {
   //     }).addTo(map);
   //   }
   // });
-
-  L.Routing.control({
-    waypoints: [latLng1, latLng2],
-    lineOptions: {
-      styles: [
-        {
-          color: "blue",
-          weight: 4,
-          opacity: 0.7,
-        },
-      ],
-    },
-    routeWhileDragging: true,
-  }).addTo(map);
 
   return null;
 };

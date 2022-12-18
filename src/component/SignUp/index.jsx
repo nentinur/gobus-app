@@ -14,6 +14,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import { useEffect } from "react";
 
 export const SignUp = () => {
   // mengirimkan value form login
@@ -25,12 +26,13 @@ export const SignUp = () => {
         kontak: values.kontak,
         pass: values.pass,
       })
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
+      .then(function (response) {
+        console.log(response);
       })
-      .catch((err) => console.error(err));
+      .catch(function (error) {
+        console.log(error);
+      });
   };
-
   // show password
   const handlePassVisibilty = () => {
     setValues({

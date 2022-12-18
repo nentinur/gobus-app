@@ -59,7 +59,7 @@ export const BookingTicket = (props) => {
           noValidate
           autoComplete="off"
         >
-          <Booking jam={props.jam} jurusan={props.jurusan} />
+          <Booking jam={props.jam} jurusan={props.jurusan} bus={props.bus} />
           <BookingButton tarif={props.tarif} />
         </Box>
       </Dialog>

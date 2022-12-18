@@ -28,6 +28,7 @@ export const FilterBus = () => {
   };
 
   const [data, setData] = useState([]);
+  const [bus, setBus] = useState();
   useEffect(() => {
     axios
       .get("http://localhost:3100/bus")
@@ -44,7 +45,7 @@ export const FilterBus = () => {
         // always executed
       });
   }, []);
-
+  console.log(data.no_bus);
   // pilihan jurusan
   const jurusanBus = [
     {
@@ -132,6 +133,7 @@ const FilteredBus = (props) => {
                   jam={ListBus.jam}
                   jurusan={ListBus.jurusan}
                   tarif={ListBus.tarif}
+                  bus={ListBus.no_bus}
                 />
               </Box>
             </ListItemButton>
