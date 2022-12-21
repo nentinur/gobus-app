@@ -13,10 +13,10 @@ import {
   IconButton,
   Slide,
   Button,
+  Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Maps from "../GObusMaps/RouteMaps";
-import { BookingButton } from "../Booking/BookingButton";
 import axios from "axios";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -87,8 +87,8 @@ export const Booking = (props) => {
     (booking) => booking.jam === props.jam && booking.jurusan === props.jurusan
   );
   // untuk mengambil titik koordinat penumpang
-  const [selectTitikNaik, setSelectTitikNaik] = useState(null);
-  const [selectTitikTurun, setSelectTitikTurun] = useState(null);
+  // const [selectTitikNaik, setSelectTitikNaik] = useState(null);
+  // const [selectTitikTurun, setSelectTitikTurun] = useState(null);
   const [open, setOpen] = React.useState(false);
 
   // data pesanan
@@ -96,7 +96,8 @@ export const Booking = (props) => {
     no_bus: props.bus,
     nama: "",
     kontak: "",
-    jumlah_kursi: 1,
+    jumlah_kursi: 0,
+    total_tarif: 0,
   });
   console.log(values);
 
@@ -108,6 +109,13 @@ export const Booking = (props) => {
     setOpen(false);
   };
 
+  const handleClickKursi = (e) => {
+    setValues({
+      ...values,
+      jumlah_kursi: e.target.value,
+      total_tarif: e.target.value * props.tarif,
+    });
+  };
   return (
     <div>
       {dataJurusan.map((ListBus) => (
@@ -130,9 +138,7 @@ export const Booking = (props) => {
           id="outlined-number"
           label="Jumlah Kursi"
           type="number"
-          onChange={(e) =>
-            setValues({ ...values, jumlah_kursi: e.target.value })
-          }
+          onChange={handleClickKursi}
         />
         <TextField
           id="outlined"
@@ -155,7 +161,18 @@ export const Booking = (props) => {
         >
           Pilih Lokasi
         </Button>
-        <BookingButton />
+        <AppBar
+          position="fixed"
+          color="primary"
+          sx={{ top: "auto", bottom: 0 }}
+        >
+          <Toolbar>
+            <Typography>Total: Rp.{values.total_tarif}</Typography>
+            <Button sx={{ marginLeft: 20 }} autoFocus color="inherit">
+              Booking
+            </Button>
+          </Toolbar>
+        </AppBar>
       </form>
       <Dialog
         fullScreen

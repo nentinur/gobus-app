@@ -13,8 +13,9 @@ import {
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-const Profile = () => {
+const Profile = (props) => {
   const [open, setOpen] = React.useState(false);
+  const { login, setLogin } = props;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,7 +51,7 @@ const Profile = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Batal</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={setLogin(false)} autoFocus>
             Ya
           </Button>
         </DialogActions>

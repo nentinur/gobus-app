@@ -7,6 +7,11 @@ import {
   Typography,
   InputAdornment,
   IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -14,20 +19,23 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import { useEffect } from "react";
 
 export const SignUp = () => {
   // mengirimkan value form login
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://localhost:3100/user", {
+      .post("http://localhost:3100/user", {
         nama: values.nama,
         kontak: values.kontak,
         pass: values.pass,
       })
       .then(function (response) {
         console.log(response);
+        // jika pendaftaran berhasil, tampilkan dialog
+        if (response.status === 200) {
+          setOpen(true);
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -56,8 +64,34 @@ export const SignUp = () => {
   });
   console.log(values);
 
+  // menutup dialog
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div>
+      {/* Dialog Pendaftaran Berhasil */}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Pendaftaran Berhasil!</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Silahkan login dengan No. telpon dan Password Anda!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClick} autoFocus>
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Form Perndaftaran */}
       <Grid
         container
         spacing={2}

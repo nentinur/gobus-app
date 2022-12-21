@@ -1,95 +1,24 @@
-import { LocationOn } from "@mui/icons-material";
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Button,
-  Divider,
-  TextField,
-  ListItemIcon,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
-import React, { useState } from "react";
-const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search?";
-const params = {
-  q: "",
-  format: "json",
-  addressdetails: "addressdetails",
-};
+import React, { useEffect } from "react";
+import L from "leaflet";
+import { useMap } from "react-leaflet";
 
-export const SearchLocation = (props) => {
-  const { selectPosition, setSelectPosition } = props;
-  const [searchLoc, setSearchLoc] = useState("");
-  const [listPlace, setListPlace] = useState([]);
-  return (
-    <div>
-      <TextField
-        sx={{ margin: 1 }}
-        id="outlined"
-        label={props.label}
-        type="text"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton>
-                <LocationOn />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        value={searchLoc}
-        onChange={(event) => {
-          // Search
-          setSearchLoc(event.target.value);
-          const params = {
-            q: searchLoc,
-            format: "json",
-            addressdetails: 1,
-            polygon_geojson: 0,
-          };
-          const queryString = new URLSearchParams(params).toString();
-          const requestOptions = {
-            method: "GET",
-            redirect: "follow",
-          };
-          fetch(`${NOMINATIM_BASE_URL}${queryString}`, requestOptions)
-            .then((response) => response.text())
-            .then((result) => {
-              console.log(JSON.parse(result));
-              setListPlace(JSON.parse(result));
-            })
-            .catch((err) => console.log("err: ", err));
-        }}
-      />
-      <div>
-        <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-          {listPlace.map((item) => {
-            return (
-              <div key={item?.place_id}>
-                <ListItem
-                  button
-                  onClick={() => {
-                    setSearchLoc(item.display_name);
-                    setListPlace([]);
-                    setSelectPosition(item);
-                  }}
-                >
-                  <ListItemIcon>
-                    <LocationOn />
-                  </ListItemIcon>
-                  <ListItemText primary={item?.display_name} />
-                </ListItem>
-                <Divider />
-              </div>
-            );
-          })}
-        </List>
-      </div>
-    </div>
-  );
+export const SearchLocation = () => {
+  const map = useMap();
+  useEffect(() => {
+    L.Control.geicoder({
+      defaultMarkGeocode: false,
+    })
+      .on("markgeocode", function (e) {
+        var bbox = e.geocode.bbox;
+        var poly = L.polygon([
+          bbox.getSouthEast(),
+          bbox.getNorthEast(),
+          bbox.getNorthWest(),
+          bbox.getSouthWest(),
+        ]).addTo(map);
+        map.fitBounds(poly.getBounds());
+      })
+      .addTo(map);
+  }, []);
+  return null;
 };

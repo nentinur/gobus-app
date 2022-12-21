@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Booking } from "../component/Booking";
-import { BookingButton } from "../component/Booking/BookingButton";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -59,8 +58,12 @@ export const BookingTicket = (props) => {
           noValidate
           autoComplete="off"
         >
-          <Booking jam={props.jam} jurusan={props.jurusan} bus={props.bus} />
-          <BookingButton tarif={props.tarif} />
+          <Booking
+            jam={props.jam}
+            jurusan={props.jurusan}
+            bus={props.bus}
+            tarif={props.tarif}
+          />
         </Box>
       </Dialog>
     </>

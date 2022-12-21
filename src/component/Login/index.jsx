@@ -20,12 +20,12 @@ export const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://localhost:3100/login", {
+      .post("http://localhost:3100/login", {
         kontak: values.kontak,
         pass: values.pass,
       })
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
+      .then((response) => {
+        localStorage.setItem("token", response.data.token);
       })
       .catch((err) => console.error(err));
   };
