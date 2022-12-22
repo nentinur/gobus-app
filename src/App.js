@@ -10,8 +10,8 @@ import { FilterBus } from "./component/Booking/FilterBus";
 import { Login } from "./component/Login";
 import { ProfilePage } from "./page/ProfilePage";
 import { SignUp } from "./component/SignUp";
-import ChatPage from "./page/ChatPage";
-import { Chat } from "./component/Chat";
+import HistoryPage from "./page/HistoryPage";
+import { History } from "./component/History";
 
 const router = createBrowserRouter([
   {
@@ -26,15 +26,11 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "chat",
-        element: <ChatPage />,
+        path: "history",
+        element: <HistoryPage />,
       },
       {
-        path: "chat/detail",
-        element: <Chat />,
-      },
-      {
-        path: "profile/history",
+        path: "history/detail",
         element: <DetailHistory />,
       },
       {

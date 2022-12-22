@@ -10,11 +10,13 @@ export const HomePage = () => {
   const handleClick = () => {
     navigate("filter-bus");
   };
+  const user = localStorage.getItem("user");
+  const dataUser = JSON.parse(user);
   return (
     <div>
       <GObusAppBar />
       <Box sx={{ flexGrow: 1, padding: 2 }}>
-        <Typography variant="h5">Halo, Pengguna</Typography>
+        <Typography variant="h5">Halo, {dataUser.nama}</Typography>
         <Typography variant="h6">mau kemana hari ini?</Typography>
       </Box>
       <div>

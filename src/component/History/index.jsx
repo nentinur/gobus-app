@@ -12,7 +12,7 @@ import DirectionsIcon from "@mui/icons-material/Directions";
 const History = () => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("history");
+    navigate("detail");
   };
   return (
     <List

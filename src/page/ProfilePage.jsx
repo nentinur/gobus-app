@@ -1,15 +1,13 @@
 import React from "react";
 import GObusAppBar from "../component/Navigation/GObusAppBar";
-import Profile from "../component/Profile";
-import History from "../component/History";
+import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {
   Paper,
-  Typography,
   Avatar,
   Card,
   CardHeader,
-  IconButton,
+  CardContent,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -18,7 +16,7 @@ import {
   Button,
 } from "@mui/material";
 import { LoginButton } from "../component/Login/LoginButton";
-import { useState } from "react";
+import { EditProfile } from "../component/Profile/EditProfile";
 
 export const ProfilePage = () => {
   return (
@@ -30,8 +28,10 @@ export const ProfilePage = () => {
 };
 
 const IsLogin = () => {
-  const [login, setLogin] = useState(false);
   const [open, setOpen] = React.useState(false);
+
+  const user = localStorage.getItem("user");
+  const dataUser = JSON.parse(user);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,9 +41,11 @@ const IsLogin = () => {
     setOpen(false);
   };
   const handleLogout = () => {
-    setLogin(false);
+    setOpen(false);
+    localStorage.removeItem("user");
   };
-  if (login == false) {
+  const edit = () => {};
+  if (user == null) {
     return (
       <Paper elevation={3} sx={{ margin: 3 }}>
         <LoginButton />
@@ -56,18 +58,21 @@ const IsLogin = () => {
           <Card sx={{ maxWidth: "100%" }}>
             <CardHeader
               avatar={<Avatar>P</Avatar>}
-              action={
-                <IconButton
-                  color="primary"
-                  aria-label="logout"
-                  onClick={handleClickOpen}
-                >
-                  <LogoutIcon />
-                </IconButton>
-              }
-              title="Pengguna"
-              subheader="@pengguna_01"
+              title={dataUser.nama}
+              subheader={dataUser.kontak}
             />
+            <CardContent>
+              <EditProfile />
+              <Button
+                sx={{ margin: 1 }}
+                startIcon={<LogoutIcon />}
+                variant="outlined"
+                size="small"
+                onClick={handleClickOpen}
+              >
+                Logout
+              </Button>
+            </CardContent>
           </Card>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle id="alert-dialog-title">Keluar</DialogTitle>
@@ -83,12 +88,6 @@ const IsLogin = () => {
               </Button>
             </DialogActions>
           </Dialog>
-        </Paper>
-        <Paper elevation={3} sx={{ margin: 3 }}>
-          <Typography sx={{ padding: 2 }} variant="h6">
-            Riwayat Perjalanan
-          </Typography>
-          <History />
         </Paper>
       </div>
     );

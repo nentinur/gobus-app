@@ -16,6 +16,7 @@ import { useState } from "react";
 import axios from "axios";
 
 export const Login = () => {
+  const navigate = useNavigate();
   // mengirimkan value form login
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +26,11 @@ export const Login = () => {
         pass: values.pass,
       })
       .then((response) => {
-        localStorage.setItem("token", response.data.token);
+        console.log(response);
+        if (response.status === 200) {
+          navigate("/");
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
       })
       .catch((err) => console.error(err));
   };
@@ -39,7 +44,6 @@ export const Login = () => {
   };
 
   //untuk pindah ke halaman sign up
-  const navigate = useNavigate();
   const handleClick = () => {
     navigate("signup");
   };

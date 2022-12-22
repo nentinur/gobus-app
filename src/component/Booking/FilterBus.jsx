@@ -61,8 +61,8 @@ export const FilterBus = () => {
       label: "Bandung - Kuningan",
     },
     {
-      value: "imy-tsk",
-      label: "Indramayu - Tasikmalaya",
+      value: "bdg-tsk",
+      label: "Bandung - Tasikmalaya",
     },
   ];
 
