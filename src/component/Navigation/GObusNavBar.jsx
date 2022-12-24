@@ -33,6 +33,11 @@ export const GObusNavBar = () => {
         setValue("history");
       }
       break;
+    case "":
+      if (value !== "") {
+        setValue("");
+      }
+      break;
   }
   return (
     <Box sx={{ pb: 7 }}>

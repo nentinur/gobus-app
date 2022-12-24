@@ -5,7 +5,7 @@ import {
   Typography,
   InputAdornment,
   IconButton,
-  Dialog,
+  Box,
   AppBar,
   Toolbar,
 } from "@mui/material";
@@ -19,26 +19,49 @@ import { useState } from "react";
 import axios from "axios";
 
 export const EditProfile = () => {
+  // mengambil info user dari local storage
+  const user = localStorage.getItem("user");
+  const dataUser = JSON.parse(user);
+
   // post data yang diubah
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3100/user", {
+      .post("http://localhost:3100/user/update", {
         nama: values.nama,
         kontak: values.kontak,
         pass: values.pass,
+        id_user: dataUser.id_user,
       })
       .then(function (response) {
         console.log(response);
-        // jika pendaftaran berhasil, tampilkan dialog
-        if (response.status === 200) {
-          setOpen(true);
-        }
+        getUser();
+        navigate(-1);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
+  const getUser = () => {
+    axios
+      .get("http://localhost:3100/user", {
+        params: {
+          id_user: dataUser.id_user,
+        },
+      })
+      .then(function (response) {
+        console.log(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  };
+
   // show password
   const handlePassVisibilty = () => {
     setValues({
@@ -56,32 +79,14 @@ export const EditProfile = () => {
   console.log(values);
 
   // menutup dialog
-  const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
   const handleClose = () => {
-    setOpen(false);
+    navigate(-1);
   };
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+
   return (
     <div>
-      {/* Dialog ubah profil */}
-      <Button
-        sx={{ margin: 1 }}
-        startIcon={<EditIcon />}
-        variant="outlined"
-        size="small"
-        onClick={handleClickOpen}
-      >
-        Ubah Profil
-      </Button>
-      <Dialog
-        fullScreen
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+      <form onSubmit={handleSubmit}>
         <AppBar sx={{ position: "relative" }}>
           <Toolbar>
             <IconButton
@@ -95,17 +100,16 @@ export const EditProfile = () => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Edit Profile
             </Typography>
-            <Button
-              type="submit"
-              autoFocus
-              color="inherit"
-              onClick={handleSubmit}
-            >
-              save
+            <Button type="submit" autoFocus color="inherit">
+              SIMPAN
             </Button>
           </Toolbar>
         </AppBar>
-        <form onSubmit={handleSubmit}>
+        <Box
+          sx={{
+            "& .MuiTextField-root": { m: 2, width: "90%" },
+          }}
+        >
           <TextField
             sx={{ mt: 2 }}
             type="text"
@@ -153,8 +157,8 @@ export const EditProfile = () => {
               ),
             }}
           />
-        </form>
-      </Dialog>
+        </Box>
+      </form>
     </div>
   );
 };

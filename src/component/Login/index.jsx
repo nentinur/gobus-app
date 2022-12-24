@@ -30,6 +30,7 @@ export const Login = () => {
         if (response.status === 200) {
           navigate("/");
           localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("login", true);
         }
       })
       .catch((err) => console.error(err));

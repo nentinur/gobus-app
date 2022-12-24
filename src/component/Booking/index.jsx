@@ -7,61 +7,56 @@ import {
   ListItemAvatar,
   Avatar,
   ListItemText,
-  Dialog,
+  Box,
   AppBar,
   Toolbar,
   IconButton,
   Slide,
   Button,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Maps from "../GObusMaps/RouteMaps";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export const Booking = (props) => {
   // handle klik booking
-  const handleSubmit = (e) => {
+  const [open, setOpen] = useState();
+  const handleBooking = (e) => {
     e.preventDefault();
     axios
-      .post("https://localhost:3100/login", {
+      .post("http://localhost:3100/pesanan", {
+        id_user: values.id_user,
+        id_jadwal: values.id_jadwal,
+        tanggal: values.tanggal,
+        nama: values.nama,
         kontak: values.kontak,
-        pass: values.pass,
+        jumlah_kursi: values.jumlah_kursi,
+        lat_naik: values.lat_awal,
+        lon_naik: values.lon_awal,
+        lat_turun: values.lat_akhir,
+        lon_turun: values.lon_akhir,
+        tarif: values.total_tarif,
       })
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
+        console.log(res);
+        setOpen(true);
       })
       .catch((err) => console.error(err));
   };
 
-  // get titik berangat dan berhenti bus
-  const [latAwal, setLatAwal] = useState();
-  const [lonAwal, setLonAwal] = useState();
-  const [latAkhir, setLatAkhir] = useState();
-  const [lonAkhir, setLonAkhir] = useState();
-  useEffect(() => {
-    axios
-      .post("http://localhost:3100/posisi/rute", {
-        bus: props.bus,
-      })
-      .then(function (response) {
-        setLatAwal(response.data[0].lat_awal);
-        setLonAwal(response.data[0].lon_awal);
-        setLatAkhir(response.data[0].lat_akhir);
-        setLonAkhir(response.data[0].lon_akhir);
-        console.log("posisi awal: ", latAwal);
-        console.log("posisi akhir: ", lonAkhir);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-  });
+  // menangkap id_jadwal yang dikirim melalui router
+  const { state } = useLocation();
+  const { id } = state;
 
   //get list bus dari API
   const [data, setData] = useState([]);
@@ -70,8 +65,8 @@ export const Booking = (props) => {
       .get("http://localhost:3100/bus")
       .then(function (response) {
         // handle success
-        console.log("bus: ", response.data);
         setData(response.data);
+        console.log("bus: ", response.data);
       })
       .catch(function (error) {
         // handle error
@@ -83,104 +78,83 @@ export const Booking = (props) => {
   }, []);
 
   // fungsi filter bus
-  const dataJurusan = data.filter(
-    (booking) => booking.jam === props.jam && booking.jurusan === props.jurusan
-  );
-  // untuk mengambil titik koordinat penumpang
-  // const [selectTitikNaik, setSelectTitikNaik] = useState(null);
-  // const [selectTitikTurun, setSelectTitikTurun] = useState(null);
-  const [open, setOpen] = React.useState(false);
+  const dataBus = data.filter((booking) => booking.id_jadwal === id);
+  console.log("data bus: ", dataBus);
+  // mengambil titik koordinat
+  const [latAwal, setLatAwal] = useState();
+  const [lonAwal, setLonAwal] = useState();
+  const [latAkhir, setLatAkhir] = useState();
+  const [lonAkhir, setLonAkhir] = useState();
 
+  // mengambil data dari local storage
+  const user = localStorage.getItem("user");
+  const login = localStorage.getItem("login");
+  const dataUser = JSON.parse(user);
+
+  // mendapatkan tanggal sekarang
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
   // data pesanan
+
   const [values, setValues] = useState({
-    no_bus: props.bus,
+    id_user: dataUser.id_user,
+    id_jadwal: id,
+    tanggal: date,
     nama: "",
     kontak: "",
     jumlah_kursi: 0,
     total_tarif: 0,
+    lat_awal: "",
+    lon_awal: "",
+    lat_akhir: "",
+    lon_akhir: "",
   });
-  console.log(values);
 
-  // untuk membuka dan menutup dialog Pilih Rute
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  console.log(values);
 
   const handleClickKursi = (e) => {
     setValues({
       ...values,
       jumlah_kursi: e.target.value,
-      total_tarif: e.target.value * props.tarif,
+      total_tarif: e.target.value * tarif,
     });
   };
+
+  const navigate = useNavigate();
+  const handleClose = () => {
+    navigate(-1);
+  };
+  const handleOk = () => {
+    navigate("/history");
+  };
+
+  const close = () => {
+    setOpen(false);
+  };
+
+  const [tarif, setTarif] = useState();
+  useEffect(() => {
+    dataBus.map((bus) => {
+      setValues({
+        ...values,
+        lat_awal: bus.lat_awal,
+        lon_awal: bus.lon_awal,
+        lat_akhir: bus.lat_akhir,
+        lon_akhir: bus.lon_akhir,
+      });
+    });
+  }, []);
+  useEffect(() => {
+    dataBus.map((bus) => {
+      setTarif(bus.tarif);
+    });
+  }, []);
+
   return (
     <div>
-      {dataJurusan.map((ListBus) => (
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar>
-              <DirectionsBusIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={ListBus.jurusan}
-            secondary={
-              "Jam: " + ListBus.jam + " | Kursi Kosong: " + ListBus.kursi_kosong
-            }
-          />
-        </ListItem>
-      ))}
-      <form onSubmit={handleSubmit}>
-        <TextField
-          id="outlined-number"
-          label="Jumlah Kursi"
-          type="number"
-          onChange={handleClickKursi}
-        />
-        <TextField
-          id="outlined"
-          label="Nama"
-          type="text"
-          onChange={(e) => setValues({ ...values, nama: e.target.value })}
-        />
-        <TextField
-          id="outlined"
-          label="Nomor HP/WA"
-          type="text"
-          onChange={(e) => setValues({ ...values, kontak: e.target.value })}
-        />
-        <Button
-          sx={{ margin: 2 }}
-          variant="outlined"
-          startIcon={<DirectionsIcon />}
-          onClick={handleClickOpen}
-          no_bus
-        >
-          Pilih Lokasi
-        </Button>
-        <AppBar
-          position="fixed"
-          color="primary"
-          sx={{ top: "auto", bottom: 0 }}
-        >
-          <Toolbar>
-            <Typography>Total: Rp.{values.total_tarif}</Typography>
-            <Button sx={{ marginLeft: 20 }} autoFocus color="inherit">
-              Booking
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </form>
-      <Dialog
-        fullScreen
-        open={open}
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar sx={{ marginBottom: 2, position: "relative" }}>
+      <form onSubmit={handleBooking}>
+        <AppBar sx={{ position: "relative" }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -190,16 +164,86 @@ export const Booking = (props) => {
             >
               <CloseIcon />
             </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Booking Kursi
+            </Typography>
+            <Button type="submit" autoFocus color="inherit">
+              Booking
+            </Button>
           </Toolbar>
         </AppBar>
+        <Box
+          sx={{
+            "& .MuiTextField-root": { m: 1, width: "90%" },
+          }}
+        >
+          {dataBus.map((ListBus) => (
+            <ListItem key={ListBus.id_jadwal} value={ListBus.id_jadwal}>
+              <ListItemAvatar>
+                <Avatar>
+                  <DirectionsBusIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={ListBus.jurusan}
+                secondary={
+                  "Jam: " +
+                  ListBus.jam +
+                  " | Kursi Kosong: " +
+                  ListBus.kursi_kosong
+                }
+              />
+            </ListItem>
+          ))}
 
-        <Maps
-          latAwal={latAwal}
-          lonAwal={lonAwal}
-          latAkhir={latAkhir}
-          lonAkhir={lonAkhir}
-        />
-      </Dialog>
+          <TextField
+            id="outlined-number"
+            label="Jumlah Kursi"
+            type="number"
+            onChange={handleClickKursi}
+          />
+          <TextField
+            id="outlined"
+            label="Nama"
+            type="text"
+            onChange={(e) => setValues({ ...values, nama: e.target.value })}
+          />
+          <TextField
+            id="outlined"
+            label="Nomor HP/WA"
+            type="text"
+            onChange={(e) => setValues({ ...values, kontak: e.target.value })}
+          />
+        </Box>
+        {/* <Maps
+          latAwal={values.lat_awal}
+          lonAwal={values.lon_awal}
+          latAkhir={values.lat_akhir}
+          lonAkhir={values.lon_akhir}
+        /> */}
+        <AppBar
+          position="fixed"
+          color="primary"
+          sx={{ top: "auto", bottom: 0 }}
+        >
+          <Toolbar>
+            <Typography>Total: Rp.{values.total_tarif}</Typography>
+          </Toolbar>
+        </AppBar>
+        <Dialog open={open} onClose={close}>
+          <DialogTitle id="alert-dialog-title">
+            Pemesanan Tiket Berhasil
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Lihat rincian pemesanan?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleOk}>Ya</Button>
+          </DialogActions>
+        </Dialog>
+      </form>
     </div>
   );
 };

@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { LoginButton } from "../component/Login/LoginButton";
 import { EditProfile } from "../component/Profile/EditProfile";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const ProfilePage = () => {
   return (
@@ -31,10 +32,16 @@ const IsLogin = () => {
   const [open, setOpen] = React.useState(false);
 
   const user = localStorage.getItem("user");
+  const login = localStorage.getItem("login");
   const dataUser = JSON.parse(user);
 
   const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const navigate = useNavigate();
+  const handleClickEdit = () => {
+    navigate("edit");
   };
 
   const handleClose = () => {
@@ -42,10 +49,10 @@ const IsLogin = () => {
   };
   const handleLogout = () => {
     setOpen(false);
-    localStorage.removeItem("user");
+    localStorage.setItem("login", false);
   };
-  const edit = () => {};
-  if (user == null) {
+
+  if (login == "false") {
     return (
       <Paper elevation={3} sx={{ margin: 3 }}>
         <LoginButton />
@@ -62,7 +69,15 @@ const IsLogin = () => {
               subheader={dataUser.kontak}
             />
             <CardContent>
-              <EditProfile />
+              <Button
+                sx={{ margin: 1 }}
+                startIcon={<LogoutIcon />}
+                variant="outlined"
+                size="small"
+                onClick={handleClickEdit}
+              >
+                Edit Profil
+              </Button>
               <Button
                 sx={{ margin: 1 }}
                 startIcon={<LogoutIcon />}

@@ -11,7 +11,8 @@ import { Login } from "./component/Login";
 import { ProfilePage } from "./page/ProfilePage";
 import { SignUp } from "./component/SignUp";
 import HistoryPage from "./page/HistoryPage";
-import { History } from "./component/History";
+import { Booking } from "./component/Booking";
+import { EditProfile } from "./component/Profile/EditProfile";
 
 const router = createBrowserRouter([
   {
@@ -38,11 +39,19 @@ const router = createBrowserRouter([
         element: <FilterBus />,
       },
       {
-        path: "profile/login",
+        path: "booking",
+        element: <Booking />,
+      },
+      {
+        path: "login",
         element: <Login />,
       },
       {
-        path: "profile/login/signup",
+        path: "profile/edit",
+        element: <EditProfile />,
+      },
+      {
+        path: "login/signup",
         element: <SignUp />,
       },
       {

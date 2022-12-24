@@ -60,6 +60,10 @@ const RoutingMachine = (props) => {
         },
       ],
     },
+    fitSelectedRoutes: true,
+    draggableWaypoints: false,
+    routeWhileDragging: false,
+    addWaypoints: false,
   }).addTo(map);
 
   // L.Routing.control({
