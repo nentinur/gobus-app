@@ -25,12 +25,16 @@ import Maps from "../GObusMaps/RouteMaps";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-export const Booking = (props) => {
-  // handle klik booking
+export const Booking = () => {
   const [open, setOpen] = useState();
+  const handleOk = () => {
+    navigate("/history");
+  };
+
+  const close = () => {
+    setOpen(false);
+  };
+  // handle klik booking
   const handleBooking = (e) => {
     e.preventDefault();
     axios
@@ -50,6 +54,7 @@ export const Booking = (props) => {
       .then((res) => {
         console.log(res);
         setOpen(true);
+        updateBus();
       })
       .catch((err) => console.error(err));
   };
@@ -60,31 +65,34 @@ export const Booking = (props) => {
 
   //get list bus dari API
   const [data, setData] = useState([]);
+  // mengambil titik koordinat
+  const [latAwal, setLatAwal] = useState();
+  const [lonAwal, setLonAwal] = useState();
+  const [latAkhir, setLatAkhir] = useState();
+  const [lonAkhir, setLonAkhir] = useState();
   useEffect(() => {
     axios
-      .get("http://localhost:3100/bus")
+      .get("http://localhost:3100/bus/jadwal", {
+        params: {
+          id_jadwal: id,
+        },
+      })
       .then(function (response) {
-        // handle success
+        setLatAwal(response.data.lat_awal);
+        setLonAwal(response.data.lon_awal);
+        setLatAkhir(response.data.lat_akhir);
+        setLonAkhir(response.data.lon_akhir);
+        console.log("posisi awal: ", latAwal);
         setData(response.data);
-        console.log("bus: ", response.data);
+        console.log(response.data);
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
       })
       .then(function () {
         // always executed
       });
   }, []);
-
-  // fungsi filter bus
-  const dataBus = data.filter((booking) => booking.id_jadwal === id);
-  console.log("data bus: ", dataBus);
-  // mengambil titik koordinat
-  const [latAwal, setLatAwal] = useState();
-  const [lonAwal, setLonAwal] = useState();
-  const [latAkhir, setLatAkhir] = useState();
-  const [lonAkhir, setLonAkhir] = useState();
 
   // mengambil data dari local storage
   const user = localStorage.getItem("user");
@@ -105,10 +113,10 @@ export const Booking = (props) => {
     kontak: "",
     jumlah_kursi: 0,
     total_tarif: 0,
-    lat_awal: "",
-    lon_awal: "",
-    lat_akhir: "",
-    lon_akhir: "",
+    lat_awal: "latAwal",
+    lon_awal: "lonAwal",
+    lat_akhir: "latAkhir",
+    lon_akhir: "lonAkhir",
   });
 
   console.log(values);
@@ -117,39 +125,31 @@ export const Booking = (props) => {
     setValues({
       ...values,
       jumlah_kursi: e.target.value,
-      total_tarif: e.target.value * tarif,
+      total_tarif: e.target.value * data.tarif,
+      lat_awal: latAwal,
+      lon_awal: lonAwal,
+      lat_akhir: latAkhir,
+      lon_akhir: lonAkhir,
     });
   };
 
+  const sisaKursi = data.kursi_kosong - values.jumlah_kursi;
+  console.log("sisa kursi: " + sisaKursi);
+  const updateBus = () => {
+    axios
+      .post("http://localhost:3100/bus/update", {
+        kursi: sisaKursi,
+        id: values.id_jadwal,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.error(err));
+  };
   const navigate = useNavigate();
   const handleClose = () => {
     navigate(-1);
   };
-  const handleOk = () => {
-    navigate("/history");
-  };
-
-  const close = () => {
-    setOpen(false);
-  };
-
-  const [tarif, setTarif] = useState();
-  useEffect(() => {
-    dataBus.map((bus) => {
-      setValues({
-        ...values,
-        lat_awal: bus.lat_awal,
-        lon_awal: bus.lon_awal,
-        lat_akhir: bus.lat_akhir,
-        lon_akhir: bus.lon_akhir,
-      });
-    });
-  }, []);
-  useEffect(() => {
-    dataBus.map((bus) => {
-      setTarif(bus.tarif);
-    });
-  }, []);
 
   return (
     <div>
@@ -177,24 +177,19 @@ export const Booking = (props) => {
             "& .MuiTextField-root": { m: 1, width: "90%" },
           }}
         >
-          {dataBus.map((ListBus) => (
-            <ListItem key={ListBus.id_jadwal} value={ListBus.id_jadwal}>
-              <ListItemAvatar>
-                <Avatar>
-                  <DirectionsBusIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={ListBus.jurusan}
-                secondary={
-                  "Jam: " +
-                  ListBus.jam +
-                  " | Kursi Kosong: " +
-                  ListBus.kursi_kosong
-                }
-              />
-            </ListItem>
-          ))}
+          <ListItem key={data.id_jadwal} value={data.id_jadwal}>
+            <ListItemAvatar>
+              <Avatar>
+                <DirectionsBusIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={data.jurusan}
+              secondary={
+                "Jam: " + data.jam + " | Kursi Kosong: " + data.kursi_kosong
+              }
+            />
+          </ListItem>
 
           <TextField
             id="outlined-number"
@@ -215,12 +210,12 @@ export const Booking = (props) => {
             onChange={(e) => setValues({ ...values, kontak: e.target.value })}
           />
         </Box>
-        {/* <Maps
-          latAwal={values.lat_awal}
-          lonAwal={values.lon_awal}
-          latAkhir={values.lat_akhir}
-          lonAkhir={values.lon_akhir}
-        /> */}
+        <Maps
+          latAwal={latAwal}
+          lonAwal={lonAwal}
+          latAkhir={latAkhir}
+          lonAkhir={lonAkhir}
+        />
         <AppBar
           position="fixed"
           color="primary"
@@ -230,20 +225,20 @@ export const Booking = (props) => {
             <Typography>Total: Rp.{values.total_tarif}</Typography>
           </Toolbar>
         </AppBar>
-        <Dialog open={open} onClose={close}>
-          <DialogTitle id="alert-dialog-title">
-            Pemesanan Tiket Berhasil
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Lihat rincian pemesanan?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleOk}>Ya</Button>
-          </DialogActions>
-        </Dialog>
       </form>
+      <Dialog open={open} onClose={close}>
+        <DialogTitle id="alert-dialog-title">
+          Pemesanan Tiket Berhasil
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Lihat rincian pemesanan?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleOk}>Ya</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

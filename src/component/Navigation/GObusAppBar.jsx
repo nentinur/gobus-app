@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Box,
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  InputBase,
-} from "@mui/material";
+import { Box, AppBar, Toolbar, Typography, IconButton } from "@mui/material";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
 
 const GObusAppBar = () => {

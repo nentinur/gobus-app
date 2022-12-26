@@ -10,7 +10,6 @@ import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
-import { SearchLocation } from "./SearchLocation";
 
 Leaflet.Icon.Default.imagePath = "../node_modules/leaflet";
 
@@ -44,7 +43,7 @@ export default function Maps(props) {
   );
 }
 
-const RoutingMachine = (props) => {
+export const RoutingMachine = (props) => {
   const map = useMap();
   L.Routing.control({
     waypoints: [

@@ -18,6 +18,7 @@ import { BackButton } from "../Navigation/BackButton";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { Directions } from "@mui/icons-material";
 
 export default function DetailHistory() {
   const { state } = useLocation();
@@ -52,35 +53,30 @@ export default function DetailHistory() {
           sx={{ width: "100%", bgcolor: "background.paper" }}
           aria-label="contacts"
         >
-          {data.map((pesanan) => (
-            <ListItem key={pesanan.id_pesanan} value={pesanan.jurusan}>
-              <ListItemAvatar>
-                <Avatar>
-                  <DirectionsBus />
-                </Avatar>
-              </ListItemAvatar>
-              <Box
-                component="form"
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <Typography variant="H6">{pesanan.jurusan}</Typography>
-                <Typography variant="body2">Jam: {pesanan.jam} WIB</Typography>
-                <Typography variant="body2">
-                  No. Bus: {pesanan.no_bus}
-                </Typography>
-                <Typography variant="body2">Tarif: {pesanan.tarif}</Typography>
-              </Box>
-            </ListItem>
-          ))}
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <DirectionsBus />
+              </Avatar>
+            </ListItemAvatar>
+            <Box
+              component="form"
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <Typography variant="H6">{data.jurusan}</Typography>
+              <Typography variant="body2">Jam: {data.jam} WIB</Typography>
+              <Typography variant="body2">No. Bus: {data.no_bus}</Typography>
+            </Box>
+          </ListItem>
         </List>
         <Box sx={{ padding: 2 }}>
           <Button variant="outlined" startIcon={<WhatsAppIcon />}>
-            <Link to="http://wa.me/6287745677969">Hubungi Sopir</Link>
+            <Link href="http://wa.me/6287745677969">Hubungi Sopir</Link>
           </Button>
         </Box>
       </div>

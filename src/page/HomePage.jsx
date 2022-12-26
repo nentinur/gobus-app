@@ -35,7 +35,7 @@ export const HomePage = () => {
             Booking Tiket
           </Button>
         </Box>
-        <TrackBus />
+        <GObusMaps />
       </div>
     </div>
   );

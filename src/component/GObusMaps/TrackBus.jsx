@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
+import L from "leaflet";
 import Leaflet from "leaflet";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  LayerGroup,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import axios from "axios";
 
 Leaflet.Icon.Default.imagePath = "../node_modules/leaflet";
 
@@ -13,7 +22,7 @@ Leaflet.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-export default function TrackBus() {
+export default function TrackBus(props) {
   return (
     <MapContainer
       center={[-6.9316648, 107.7229107]}
@@ -25,11 +34,46 @@ export default function TrackBus() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <TrackMaps />
+      <CurrrentPosition />
     </MapContainer>
   );
 }
 
-function TrackMaps() {
+function TrackMaps(props) {
+  const map = useMap();
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+  useEffect(() => {
+    setInterval(() => {
+      axios
+        .get("http://localhost:3100/posisi", {
+          params: {
+            id: "D1133UIN",
+          },
+        })
+        .then(function (response) {
+          console.log("get: ", response.data);
+          setLat(parseFloat(response.data.lat));
+          setLng(parseFloat(response.data.lng));
+          console.log(lat);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .then(function () {
+          // always executed
+        });
+    }, 3000);
+  }, []);
+
+  return (
+    <Marker position={[lat, lng]}>
+      <Popup>bus</Popup>
+    </Marker>
+  );
+}
+
+const CurrrentPosition = () => {
   const map = useMap();
   const [position, setPosition] = useState(null);
   useEffect(() => {
@@ -38,11 +82,13 @@ function TrackMaps() {
         setPosition(e.latlng);
         map.flyTo(e.latlng, map.getZoom());
       });
-    }, 1000);
+    }, 3000);
   }, [map]);
+
+  console.log(position);
   return position === null ? null : (
     <Marker position={position}>
       <Popup>You are here</Popup>
     </Marker>
   );
-}
+};
