@@ -1,5 +1,5 @@
 import React from "react";
-import GObusAppBar from "../component/Navigation/GObusAppBar";
+import GObusAppBar from "../Home/GObusAppBar";
 import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
 import {
@@ -15,8 +15,7 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { LoginButton } from "../component/Login/LoginButton";
-import { EditProfile } from "../component/Profile/EditProfile";
+import { LoginButton } from "../Login/LoginButton";
 import { Navigate, useNavigate } from "react-router-dom";
 
 export const ProfilePage = () => {

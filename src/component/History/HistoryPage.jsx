@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Paper, Typography } from "@mui/material";
-import GObusAppBar from "../component/Navigation/GObusAppBar";
+import GObusAppBar from "../Home/GObusAppBar";
 import { useNavigate } from "react-router-dom";
-import History from "../component/History";
+import History from ".";
 import { useEffect } from "react";
-import { LoginButton } from "../component/Login/LoginButton";
+import { LoginButton } from "../Login/LoginButton";
 
 export default function HistoryPage() {
   const login = localStorage.getItem("login");

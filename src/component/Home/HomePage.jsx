@@ -1,9 +1,9 @@
 import { Typography, Box, Button } from "@mui/material";
-import GObusMaps from "../component/GObusMaps";
-import GObusAppBar from "../component/Navigation/GObusAppBar";
+import GObusMaps from "../GObusMaps";
+import GObusAppBar from "./GObusAppBar";
 import { useNavigate } from "react-router-dom";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
-import TrackBus from "../component/GObusMaps/TrackBus";
+import TrackBus from "../GObusMaps/TrackBus";
 import { useState } from "react";
 
 export const HomePage = () => {

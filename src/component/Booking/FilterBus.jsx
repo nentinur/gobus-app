@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 
 import DirectionsBus from "@mui/icons-material/DirectionsBus";
-import { BackButton } from "../Navigation/BackButton";
+import { BackButton } from "../Home/BackButton";
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";

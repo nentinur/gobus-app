@@ -1,16 +1,16 @@
 import React from "react";
-import { GObusNavBar } from "./component/Navigation/GObusNavBar";
 import { Outlet } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
 
-import { HomePage } from "./page/HomePage";
+import { GObusNavBar } from "./component/Home/GObusNavBar";
+import { HomePage } from "./component/Home/HomePage";
 import DetailHistory from "./component/History/DetailHistory";
 import { FilterBus } from "./component/Booking/FilterBus";
 import { Login } from "./component/Login";
-import { ProfilePage } from "./page/ProfilePage";
+import { ProfilePage } from "./component/Profile/ProfilePage";
 import { SignUp } from "./component/SignUp";
-import HistoryPage from "./page/HistoryPage";
+import HistoryPage from "./component/History/HistoryPage";
 import { Booking } from "./component/Booking";
 import { EditProfile } from "./component/Profile/EditProfile";
 
