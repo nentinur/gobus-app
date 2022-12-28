@@ -13,6 +13,12 @@ import { SignUp } from "./component/SignUp";
 import HistoryPage from "./component/History/HistoryPage";
 import { Booking } from "./component/Booking";
 import { EditProfile } from "./component/Profile/EditProfile";
+import { HomePageDriver } from "./component/Home/HomePageDriver";
+import { ProfilePageDriver } from "./component/Profile/ProfilePageDriver";
+import PenumpangPage from "./component/Penumpang/PenumpangPage";
+import { NavbarDriver } from "./component/Home/NavbarDriver";
+import { EditProfileDriver } from "./component/Profile/EditProfileDriver";
+import { EditBus } from "./component/Profile/EditBus";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <HomePage />,
+      },
+      {
+        path: "driver",
+        element: <HomePageDriver />,
       },
       {
         path: "history",
@@ -58,6 +68,26 @@ const router = createBrowserRouter([
         path: "profile",
         element: <ProfilePage />,
       },
+      {
+        path: "profile-driver",
+        element: <ProfilePageDriver />,
+      },
+      {
+        path: "penumpang",
+        element: <PenumpangPage />,
+      },
+      {
+        path: "penumpang-detail",
+        element: <ProfilePage />,
+      },
+      {
+        path: "profile-driver/edit",
+        element: <EditProfileDriver />,
+      },
+      {
+        path: "profile-driver/edit-bus",
+        element: <EditBus />,
+      },
     ],
   },
 ]);
@@ -73,12 +103,24 @@ const App = () => {
 };
 
 function Layout() {
-  return (
-    <div>
-      <Outlet />
-      <GObusNavBar />
-    </div>
-  );
+  const user = localStorage.getItem("user");
+  const dataUser = JSON.parse(user);
+
+  if (dataUser.role == "penumpang") {
+    return (
+      <div>
+        <Outlet />
+        <GObusNavBar />
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Outlet />
+        <NavbarDriver />
+      </div>
+    );
+  }
 }
 
 export default App;
