@@ -19,7 +19,9 @@ import axios from "axios";
 export const EditBus = () => {
   // state untuk menampung data bus
   const [data, setData] = useState([]);
-  const [dataBus, setDataBus] = useState([]);
+  const [jurusan, setJurusan] = React.useState("");
+
+  console.log(jurusan);
   useEffect(() => {
     axios
       .get("http://localhost:3100/bus")
@@ -36,18 +38,18 @@ export const EditBus = () => {
         // always executed
       });
   }, []);
-  const dataJurusan = data.filter((bus) => bus.kode_jurusan === jurusan);
-  useEffect(() => {
+
+  const handleClickBus = () => {
     axios
       .get("http://localhost:3100/bus/jadwal", {
         params: {
-          jurusan: jurusan,
-          jam: jam,
+          id_jadwal: jurusan,
         },
       })
       .then(function (response) {
         // handle success
-        console.log("jadwal: ", response.data);
+        localStorage.setItem("bus", JSON.stringify(response.data));
+        console.log("bus: ", response.data);
       })
       .catch(function (error) {
         // handle error
@@ -56,7 +58,8 @@ export const EditBus = () => {
       .then(function () {
         // always executed
       });
-  }, []);
+    handleClose();
+  };
 
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
@@ -67,9 +70,6 @@ export const EditBus = () => {
     setOpen(false);
   };
 
-  const [jurusan, setJurusan] = React.useState("imy-bdg");
-  const [jam, setJam] = React.useState("");
-  console.log(jurusan, jam);
   return (
     <div>
       {/* Dialog ubah profil */}
@@ -98,28 +98,20 @@ export const EditBus = () => {
               onChange={(event) => setJurusan(event.target.value)}
             >
               {data?.map((option) => (
-                <MenuItem key={option.id_jadwal} value={option.kode_jurusan}>
-                  {option.jurusan}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              id="pilih-jam"
-              select
-              label="Pilih Jam Bus"
-              value={jam}
-              onChange={(event) => setJam(event.target.value)}
-            >
-              {dataJurusan?.map((option) => (
-                <MenuItem key={option.id_jadwal} value={option.jam}>
-                  {option.jam}
+                <MenuItem key={option.id_jadwal} value={option.id_jadwal}>
+                  {option.jurusan + " - " + option.jam}
                 </MenuItem>
               ))}
             </TextField>
           </Box>
           <div>
             <DialogActions>
-              <Button type="submit" autoFocus color="primary">
+              <Button
+                onClick={handleClickBus}
+                type="submit"
+                autoFocus
+                color="primary"
+              >
                 SIMPAN
               </Button>
             </DialogActions>

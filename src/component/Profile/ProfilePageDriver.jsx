@@ -33,10 +33,11 @@ export const ProfilePageDriver = () => {
 const IsLogin = () => {
   const [open, setOpen] = React.useState(false);
 
-  const bus = localStorage.getItem("bus");
-  const user = localStorage.getItem("user");
   const login = localStorage.getItem("login");
+  const user = localStorage.getItem("user");
   const dataUser = JSON.parse(user);
+  const bus = localStorage.getItem("bus");
+  const dataBus = JSON.parse(bus);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -121,8 +122,8 @@ const IsLogin = () => {
                   <DirectionsBus />
                 </Avatar>
               }
-              title={"No bus"}
-              subheader={"Jurusan - Jam"}
+              title={dataBus.no_bus}
+              subheader={dataBus.jurusan + " - " + dataBus.jam}
             />
             <CardContent>
               <EditBus />

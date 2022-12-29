@@ -8,10 +8,8 @@ import {
   IconButton,
 } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export const Penumpang = () => {
   const bus = localStorage.getItem("bus");
@@ -23,7 +21,7 @@ export const Penumpang = () => {
     axios
       .get("http://localhost:3100/pesanan/pesanan-jadwal", {
         params: {
-          id: "ceca3e65-55f3-4ea2-a2f7-da0ae94075b7",
+          id: dataBus.id_jadwal,
         },
       })
       .then(function (response) {
@@ -50,7 +48,7 @@ export const Penumpang = () => {
         //   selected={pesanan === dataPesanan.id_pesanan}
         //   onClick={(event) => handleClick(event, dataPesanan.id_pesanan)}
         >
-          <ListItemText primary={"Nama"} secondary={"Kontak"} />
+          <ListItemText primary={data.nama} secondary={data.kontak} />
           <IconButton color="primary" href="http://wa.me/6287745677969">
             <WhatsAppIcon />
           </IconButton>

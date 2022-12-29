@@ -10,6 +10,7 @@ import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
+import { useEffect } from "react";
 
 Leaflet.Icon.Default.imagePath = "../node_modules/leaflet";
 
@@ -24,7 +25,7 @@ Leaflet.Icon.Default.mergeOptions({
 export default function Maps(props) {
   return (
     <MapContainer
-      center={[-6.9316648, 107.7229107]}
+      center={[props.latAwal, props.lonAwal]}
       zoom={20}
       style={{ height: "400px", margin: "10px", zIndex: 0 }}
     >
@@ -32,74 +33,62 @@ export default function Maps(props) {
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {/* <SearchLocation /> */}
-      <RoutingMachine
-        latNaik={props.latAwal}
-        lonNaik={props.lonAwal}
-        latTurun={props.latAkhir}
-        lonTurun={props.lonAkhir}
-      />
+
+      <RoutingMachine latAkhir={props.latAkhir} lonAkhir={props.lonAkhir} />
     </MapContainer>
   );
 }
 
 export const RoutingMachine = (props) => {
+  console.log(props.latAkhir, props.lonAkhir);
   const map = useMap();
-  L.Routing.control({
-    waypoints: [
-      L.latLng(props.latNaik, props.lonNaik),
-      L.latLng(props.latTurun, props.lonTurun),
-    ],
-    lineOptions: {
-      styles: [
-        {
-          color: "blue",
-          weight: 4,
-          opacity: 0.7,
+  useEffect(() => {
+    map.on("click", function (e) {
+      L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
+      L.Routing.control({
+        waypoints: [
+          L.latLng(e.latlng.lat, e.latlng.lng),
+          L.latLng(props.latAkhir, props.lonAkhir),
+        ],
+        lineOptions: {
+          styles: [
+            {
+              color: "blue",
+              weight: 4,
+              opacity: 0.7,
+            },
+          ],
         },
-      ],
-    },
-    fitSelectedRoutes: true,
-    draggableWaypoints: false,
-    routeWhileDragging: false,
-    addWaypoints: false,
-  }).addTo(map);
+        routeWhileDragging: false,
+        geocoder: L.Control.Geocoder.nominatim(),
+        addWaypoints: false,
+        draggableWaypoints: false,
+        fitSelectedRoutes: true,
+        showAlternatives: true,
+      }).addTo(map);
+    });
+  }, []);
 
+  // const map = useMap();
   // L.Routing.control({
-  //   waypoints: [L.latLng(57.74, 11.94), L.latLng(57.6792, 11.949)],
-  //   routeWhileDragging: true,
+  //   waypoints: [
+  //     L.latLng(props.latNaik, props.lonNaik),
+  //     L.latLng(props.latTurun, props.lonTurun),
+  //   ],
+  //   lineOptions: {
+  //     styles: [
+  //       {
+  //         color: "blue",
+  //         weight: 4,
+  //         opacity: 0.7,
+  //       },
+  //     ],
+  //   },
+  //   fitSelectedRoutes: true,
+  //   draggableWaypoints: false,
+  //   routeWhileDragging: false,
+  //   addWaypoints: false,
   // }).addTo(map);
-
-  // let naik = new L.Routing.Waypoint(latLng1);
-  // let turun = new L.Routing.Waypoint(latLng2);
-  // let routeUs = L.Routing.osrmv1();
-  // routeUs.route([naik, turun], (err, routes) => {
-  //   if (!err) {
-  //     let best = 100000000000000;
-  //     let bestRoute = 0;
-  //     let i;
-  //     for (i in routes) {
-  //       if (routes[i].summary.totalDistance < best) {
-  //         bestRoute = i;
-  //         best = routes[i].summary.totalDistance;
-  //       }
-  //     }
-  //     console.log("best route", routes[bestRoute]);
-  //     L.Routing.line(routes[bestRoute], {
-  //       styles: [
-  //         {
-  //           color: "blue",
-  //        weight: 4,
-  //       opacity: 0.7,
-  //         },
-  //       ],
-  //       routeWhileDragging: false,
-  //       addWaypoints: false,
-  //       fitSelectedRoutes: true,
-  //       showAlternatives: true,
-  //     }).addTo(map);
-  //   }
-  // });
 
   return null;
 };

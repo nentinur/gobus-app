@@ -27,8 +27,13 @@ export const Login = () => {
       })
       .then((response) => {
         console.log(response);
-        if (response.status === 200) {
+        if (response.status === 200 && response.data.role === "penumpang") {
           navigate("/");
+          localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("login", true);
+        }
+        if (response.status === 200 && response.data.role === "driver") {
+          navigate("/driver");
           localStorage.setItem("user", JSON.stringify(response.data));
           localStorage.setItem("login", true);
         }

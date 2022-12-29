@@ -23,6 +23,17 @@ import { EditBus } from "./component/Profile/EditBus";
 const router = createBrowserRouter([
   {
     path: "/in",
+    element: <LoginLayout />,
+    children: [
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "login/signup",
+        element: <SignUp />,
+      },
+    ],
   },
   {
     path: "/",
@@ -53,16 +64,8 @@ const router = createBrowserRouter([
         element: <Booking />,
       },
       {
-        path: "login",
-        element: <Login />,
-      },
-      {
         path: "profile/edit",
         element: <EditProfile />,
-      },
-      {
-        path: "login/signup",
-        element: <SignUp />,
       },
       {
         path: "profile",
@@ -102,6 +105,14 @@ const App = () => {
   );
 };
 
+function LoginLayout() {
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
+}
+
 function Layout() {
   const user = localStorage.getItem("user");
   const dataUser = JSON.parse(user);
@@ -113,7 +124,7 @@ function Layout() {
         <GObusNavBar />
       </div>
     );
-  } else {
+  } else if (dataUser.role == "driver") {
     return (
       <div>
         <Outlet />

@@ -82,9 +82,7 @@ export const Booking = () => {
         setLonAwal(response.data.lon_awal);
         setLatAkhir(response.data.lat_akhir);
         setLonAkhir(response.data.lon_akhir);
-        console.log("posisi awal: ", latAwal);
         setData(response.data);
-        console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -210,12 +208,7 @@ export const Booking = () => {
             onChange={(e) => setValues({ ...values, kontak: e.target.value })}
           />
         </Box>
-        <Maps
-          latAwal={latAwal}
-          lonAwal={lonAwal}
-          latAkhir={latAkhir}
-          lonAkhir={lonAkhir}
-        />
+        <Maps latAkhir={latAkhir} lonAkhir={lonAkhir} />
         <AppBar
           position="fixed"
           color="primary"
