@@ -29,6 +29,7 @@ export default function GObusMaps() {
   );
 }
 
+// lokasi terkini
 export function LocationMarker() {
   const [position, setPosition] = useState(null);
 

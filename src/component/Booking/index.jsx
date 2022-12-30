@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
-import DirectionsIcon from "@mui/icons-material/Directions";
 import {
   TextField,
   ListItem,
@@ -11,7 +10,6 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Slide,
   Button,
   Typography,
   Dialog,
@@ -21,7 +19,6 @@ import {
   DialogActions,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import Maps from "../GObusMaps/RouteMaps";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -34,6 +31,31 @@ export const Booking = () => {
   const close = () => {
     setOpen(false);
   };
+
+  // menangkap id_jadwal yang dikirim melalui router
+  const { state } = useLocation();
+  const { id } = state;
+
+  // mengambil data bus berdasarkan dipilih
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3100/bus/jadwal", {
+        params: {
+          id_jadwal: id,
+        },
+      })
+      .then(function (response) {
+        setData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }, []);
+
   // handle klik booking
   const handleBooking = (e) => {
     e.preventDefault();
@@ -59,42 +81,8 @@ export const Booking = () => {
       .catch((err) => console.error(err));
   };
 
-  // menangkap id_jadwal yang dikirim melalui router
-  const { state } = useLocation();
-  const { id } = state;
-
-  //get list bus dari API
-  const [data, setData] = useState([]);
-  // mengambil titik koordinat
-  const [latAwal, setLatAwal] = useState();
-  const [lonAwal, setLonAwal] = useState();
-  const [latAkhir, setLatAkhir] = useState();
-  const [lonAkhir, setLonAkhir] = useState();
-  useEffect(() => {
-    axios
-      .get("http://localhost:3100/bus/jadwal", {
-        params: {
-          id_jadwal: id,
-        },
-      })
-      .then(function (response) {
-        setLatAwal(response.data.lat_awal);
-        setLonAwal(response.data.lon_awal);
-        setLatAkhir(response.data.lat_akhir);
-        setLonAkhir(response.data.lon_akhir);
-        setData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-  }, []);
-
   // mengambil data dari local storage
   const user = localStorage.getItem("user");
-  const login = localStorage.getItem("login");
   const dataUser = JSON.parse(user);
 
   // mendapatkan tanggal sekarang
@@ -111,26 +99,28 @@ export const Booking = () => {
     kontak: "",
     jumlah_kursi: 0,
     total_tarif: 0,
-    lat_awal: "latAwal",
-    lon_awal: "lonAwal",
-    lat_akhir: "latAkhir",
-    lon_akhir: "lonAkhir",
+    lat_awal: "",
+    lon_awal: "",
+    lat_akhir: "",
+    lon_akhir: "",
   });
 
   console.log(values);
+  console.log(data.lat_akhir);
 
   const handleClickKursi = (e) => {
     setValues({
       ...values,
       jumlah_kursi: e.target.value,
       total_tarif: e.target.value * data.tarif,
-      lat_awal: latAwal,
-      lon_awal: lonAwal,
-      lat_akhir: latAkhir,
-      lon_akhir: lonAkhir,
+      lat_awal: data.lat_awal,
+      lon_awal: data.lon_awal,
+      lat_akhir: data.lat_akhir,
+      lon_akhir: data.lon_akhir,
     });
   };
 
+  // Update sisa kursi
   const sisaKursi = data.kursi_kosong - values.jumlah_kursi;
   console.log("sisa kursi: " + sisaKursi);
   const updateBus = () => {
@@ -208,7 +198,6 @@ export const Booking = () => {
             onChange={(e) => setValues({ ...values, kontak: e.target.value })}
           />
         </Box>
-        <Maps latAkhir={latAkhir} lonAkhir={lonAkhir} />
         <AppBar
           position="fixed"
           color="primary"

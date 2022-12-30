@@ -25,8 +25,8 @@ Leaflet.Icon.Default.mergeOptions({
 export default function Maps(props) {
   return (
     <MapContainer
-      center={[props.latAwal, props.lonAwal]}
-      zoom={20}
+      center={[-6.9029096, 107.6539107]}
+      zoom={15}
       style={{ height: "400px", margin: "10px", zIndex: 0 }}
     >
       <TileLayer
