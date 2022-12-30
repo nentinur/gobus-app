@@ -41,20 +41,16 @@ export const Penumpang = () => {
       sx={{ width: "100%", bgcolor: "background.paper" }}
       aria-label="contacts"
     >
-      {/* {data?.map((dataPesanan) => ( 
-          key={dataPesanan.id_pesanan} value={dataPesanan.id_pesanan}*/}
-      <ListItem>
-        <ListItemButton
-        //   selected={pesanan === dataPesanan.id_pesanan}
-        //   onClick={(event) => handleClick(event, dataPesanan.id_pesanan)}
-        >
-          <ListItemText primary={data.nama} secondary={data.kontak} />
-          <IconButton color="primary" href="http://wa.me/6287745677969">
-            <WhatsAppIcon />
-          </IconButton>
-        </ListItemButton>
-      </ListItem>
-      {/* ))} */}
+      {data?.map((dataPesanan) => (
+        <ListItem key={dataPesanan.id_pesanan} value={dataPesanan.id_pesanan}>
+          <ListItemButton>
+            <ListItemText primary={data.nama} secondary={data.kontak} />
+            <IconButton color="primary" href="http://wa.me/6287745677969">
+              <WhatsAppIcon />
+            </IconButton>
+          </ListItemButton>
+        </ListItem>
+      ))}
     </List>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import L from "leaflet";
 import Leaflet from "leaflet";
 import { Marker, Popup, useMap, MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -15,7 +14,7 @@ Leaflet.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-export default function TrackMaps(props) {
+export default function TrackMaps() {
   return (
     <MapContainer
       center={[-6.9316648, 107.7229107]}
@@ -31,12 +30,14 @@ export default function TrackMaps(props) {
   );
 }
 
-export function Track(props) {
+export function Track() {
   const map = useMap();
   const [position, setPosition] = useState(null);
 
+  // mengambil data bus dari local storage
   const bus = localStorage.getItem("bus");
   const dataBus = JSON.parse(bus);
+  // mengupdate data posisi bus setiap 3 detik
   useEffect(() => {
     setInterval(() => {
       map.locate().on("locationfound", function (e) {

@@ -6,7 +6,6 @@ import {
   Paper,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import RestoreIcon from "@mui/icons-material/Restore";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate, useLocation } from "react-router-dom";
 import { PeopleAlt } from "@mui/icons-material";

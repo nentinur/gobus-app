@@ -3,8 +3,6 @@ import GObusMaps from "../GObusMaps";
 import GObusAppBar from "./GObusAppBar";
 import { useNavigate } from "react-router-dom";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
-import TrackBus from "../GObusMaps/TrackBus";
-import { useState } from "react";
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -19,6 +17,7 @@ export const HomePage = () => {
     <div>
       <GObusAppBar />
       <Box sx={{ flexGrow: 1, padding: 2 }}>
+        {/* kalau user belum login, tampilkan "pengguna", kalau sudah tampilkan nama user */}
         <Typography variant="h5">
           Halo, {login == "true" ? dataUser.nama : "Pengguna"}
         </Typography>

@@ -6,19 +6,15 @@ import {
   ListItem,
   Avatar,
   ListItemAvatar,
-  ListItemText,
   Button,
-  Divider,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import DirectionsBus from "@mui/icons-material/DirectionsBus";
 import TrackBus from "../GObusMaps/TrackBus";
 import { BackButton } from "../Home/BackButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useEffect } from "react";
-import { Directions } from "@mui/icons-material";
 
 export default function DetailHistory() {
   const { state } = useLocation();
@@ -81,7 +77,7 @@ export default function DetailHistory() {
         </Box>
       </div>
       <div>
-        <TrackBus />
+        <TrackBus no_bus={data.no_bus} />
       </div>
     </div>
   );

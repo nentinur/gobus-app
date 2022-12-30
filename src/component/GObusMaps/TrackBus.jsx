@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import L from "leaflet";
 import Leaflet from "leaflet";
 import {
   MapContainer,
@@ -33,7 +32,7 @@ export default function TrackBus(props) {
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <TrackMaps />
+      <TrackMaps no_bus={props.no_bus} />
       <CurrrentPosition />
     </MapContainer>
   );
@@ -43,19 +42,20 @@ function TrackMaps(props) {
   const map = useMap();
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
+
+  // mengambil data posisi bus setiap 3 detik
   useEffect(() => {
     setInterval(() => {
       axios
         .get("http://localhost:3100/posisi", {
           params: {
-            id: "D2121TY",
+            id: props.no_bus,
           },
         })
         .then(function (response) {
           console.log("get: ", response.data);
           setLat(parseFloat(response.data.lat));
           setLng(parseFloat(response.data.lng));
-          console.log(lat);
         })
         .catch(function (error) {
           console.log(error);
@@ -73,6 +73,7 @@ function TrackMaps(props) {
   );
 }
 
+// mengambil posisi terkini
 const CurrrentPosition = () => {
   const map = useMap();
   const [position, setPosition] = useState(null);

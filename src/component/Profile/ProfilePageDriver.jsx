@@ -18,8 +18,6 @@ import {
 import { LoginButton } from "../Login/LoginButton";
 import { useNavigate } from "react-router-dom";
 import { EditBus } from "./EditBus";
-import { useState, useEffect } from "react";
-import axios from "axios";
 
 export const ProfilePageDriver = () => {
   return (
@@ -55,26 +53,6 @@ const IsLogin = () => {
     setOpen(false);
     localStorage.setItem("login", false);
   };
-
-  const [data, setData] = useState([]);
-  axios
-    .get("http://localhost:3100/bus/jadwal", {
-      params: {
-        id_jadwal: bus.id_jadwal,
-      },
-    })
-    .then(function (response) {
-      // handle success
-      console.log(response.data);
-      setData(response.data);
-    })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-    .then(function () {
-      // always executed
-    });
 
   if (login == "false") {
     return (

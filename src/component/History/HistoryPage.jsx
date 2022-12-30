@@ -1,12 +1,11 @@
 import * as React from "react";
 import { Paper, Typography } from "@mui/material";
 import GObusAppBar from "../Home/GObusAppBar";
-import { useNavigate } from "react-router-dom";
 import History from ".";
-import { useEffect } from "react";
 import { LoginButton } from "../Login/LoginButton";
 
 export default function HistoryPage() {
+  // kalau user belum login tampilkan tombol login
   const login = localStorage.getItem("login");
   if (login == "false") {
     return (

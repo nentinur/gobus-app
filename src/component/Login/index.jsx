@@ -27,11 +27,13 @@ export const Login = () => {
       })
       .then((response) => {
         console.log(response);
+        // user penumpang arahkan ke home page penumpang
         if (response.status === 200 && response.data.role === "penumpang") {
           navigate("/");
           localStorage.setItem("user", JSON.stringify(response.data));
           localStorage.setItem("login", true);
         }
+        // user sopir arahkan ke home page sopir
         if (response.status === 200 && response.data.role === "driver") {
           navigate("/driver");
           localStorage.setItem("user", JSON.stringify(response.data));
