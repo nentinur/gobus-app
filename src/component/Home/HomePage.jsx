@@ -11,7 +11,16 @@ export const HomePage = () => {
   };
   const user = localStorage.getItem("user");
   const login = localStorage.getItem("login");
-  const dataUser = JSON.parse(user);
+  let dataUser = {
+    id_user: "",
+    nama: "",
+    kontak: "",
+    pass: "",
+    role: "",
+  };
+  if (user !== null) {
+    dataUser = JSON.parse(user);
+  }
 
   return (
     <div>

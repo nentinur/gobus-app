@@ -11,10 +11,20 @@ import DirectionsIcon from "@mui/icons-material/Directions";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { LoginButton } from "../Login/LoginButton";
 
 const History = () => {
   const user = localStorage.getItem("user");
-  const dataUser = JSON.parse(user);
+  let dataUser = {
+    id_user: "",
+    nama: "",
+    kontak: "",
+    pass: "",
+    role: "",
+  };
+  if (user !== null) {
+    dataUser = JSON.parse(user);
+  }
 
   // mengambil data pesanan user dari API
   const [data, setData] = useState([]);
@@ -43,7 +53,6 @@ const History = () => {
     setPesanan(index);
     navigate("detail", { state: { id: index } });
   };
-
   return (
     <List
       sx={{ width: "100%", bgcolor: "background.paper" }}

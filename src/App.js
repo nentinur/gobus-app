@@ -115,9 +115,18 @@ function LoginLayout() {
 
 function Layout() {
   const user = localStorage.getItem("user");
-  const dataUser = JSON.parse(user);
+  let dataUser = {
+    id_user: "",
+    nama: "",
+    kontak: "",
+    pass: "",
+    role: "",
+  };
+  if (user !== null) {
+    dataUser = JSON.parse(user);
+  }
 
-  if (dataUser.role == "penumpang") {
+  if (dataUser.role == "penumpang" || dataUser == null) {
     return (
       <div>
         <Outlet />

@@ -31,7 +31,16 @@ const IsLogin = () => {
 
   const user = localStorage.getItem("user");
   const login = localStorage.getItem("login");
-  const dataUser = JSON.parse(user);
+  let dataUser = {
+    id_user: "",
+    nama: "",
+    kontak: "",
+    pass: "",
+    role: "",
+  };
+  if (user !== null) {
+    dataUser = JSON.parse(user);
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,7 +59,7 @@ const IsLogin = () => {
     localStorage.setItem("login", false);
   };
 
-  if (login == "false") {
+  if (login == "false" || login == null) {
     return (
       <Paper elevation={3} sx={{ margin: 3 }}>
         <LoginButton />

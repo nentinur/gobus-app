@@ -17,10 +17,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Paper,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import { LoginButton } from "../Login/LoginButton";
 
 export const Booking = () => {
   const [open, setOpen] = useState();
@@ -82,8 +84,18 @@ export const Booking = () => {
   };
 
   // mengambil data dari local storage
+  const login = localStorage.getItem("login");
   const user = localStorage.getItem("user");
-  const dataUser = JSON.parse(user);
+  let dataUser = {
+    id_user: "",
+    nama: "",
+    kontak: "",
+    pass: "",
+    role: "",
+  };
+  if (user !== null) {
+    dataUser = JSON.parse(user);
+  }
 
   // mendapatkan tanggal sekarang
   var today = new Date();
@@ -139,88 +151,96 @@ export const Booking = () => {
     navigate(-1);
   };
 
-  return (
-    <div>
-      <form onSubmit={handleBooking}>
-        <AppBar sx={{ position: "relative" }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Booking Kursi
-            </Typography>
-            <Button type="submit" autoFocus color="inherit">
-              Booking
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <Box
-          sx={{
-            "& .MuiTextField-root": { m: 1, width: "90%" },
-          }}
-        >
-          <ListItem key={data.id_jadwal} value={data.id_jadwal}>
-            <ListItemAvatar>
-              <Avatar>
-                <DirectionsBusIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={data.jurusan}
-              secondary={
-                "Jam: " + data.jam + " | Kursi Kosong: " + data.kursi_kosong
-              }
-            />
-          </ListItem>
+  if (login == "false" || login == null) {
+    return (
+      <Paper elevation={3} sx={{ margin: 3 }}>
+        <LoginButton />
+      </Paper>
+    );
+  } else {
+    return (
+      <div>
+        <form onSubmit={handleBooking}>
+          <AppBar sx={{ position: "relative" }}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleClose}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                Booking Kursi
+              </Typography>
+              <Button type="submit" autoFocus color="inherit">
+                Booking
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <Box
+            sx={{
+              "& .MuiTextField-root": { m: 1, width: "90%" },
+            }}
+          >
+            <ListItem key={data.id_jadwal} value={data.id_jadwal}>
+              <ListItemAvatar>
+                <Avatar>
+                  <DirectionsBusIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={data.jurusan}
+                secondary={
+                  "Jam: " + data.jam + " | Kursi Kosong: " + data.kursi_kosong
+                }
+              />
+            </ListItem>
 
-          <TextField
-            id="outlined-number"
-            label="Jumlah Kursi"
-            type="number"
-            onChange={handleClickKursi}
-          />
-          <TextField
-            id="outlined"
-            label="Nama"
-            type="text"
-            onChange={(e) => setValues({ ...values, nama: e.target.value })}
-          />
-          <TextField
-            id="outlined"
-            label="Nomor HP/WA"
-            type="text"
-            onChange={(e) => setValues({ ...values, kontak: e.target.value })}
-          />
-        </Box>
-        <AppBar
-          position="fixed"
-          color="primary"
-          sx={{ top: "auto", bottom: 0 }}
-        >
-          <Toolbar>
-            <Typography>Total: Rp.{values.total_tarif}</Typography>
-          </Toolbar>
-        </AppBar>
-      </form>
-      <Dialog open={open} onClose={close}>
-        <DialogTitle id="alert-dialog-title">
-          Pemesanan Tiket Berhasil
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Lihat rincian pemesanan?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleOk}>Ya</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+            <TextField
+              id="outlined-number"
+              label="Jumlah Kursi"
+              type="number"
+              onChange={handleClickKursi}
+            />
+            <TextField
+              id="outlined"
+              label="Nama"
+              type="text"
+              onChange={(e) => setValues({ ...values, nama: e.target.value })}
+            />
+            <TextField
+              id="outlined"
+              label="Nomor HP/WA"
+              type="text"
+              onChange={(e) => setValues({ ...values, kontak: e.target.value })}
+            />
+          </Box>
+          <AppBar
+            position="fixed"
+            color="primary"
+            sx={{ top: "auto", bottom: 0 }}
+          >
+            <Toolbar>
+              <Typography>Total: Rp.{values.total_tarif}</Typography>
+            </Toolbar>
+          </AppBar>
+        </form>
+        <Dialog open={open} onClose={close}>
+          <DialogTitle id="alert-dialog-title">
+            Pemesanan Tiket Berhasil
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Lihat rincian pemesanan?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleOk}>Ya</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  }
 };
