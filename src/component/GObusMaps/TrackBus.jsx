@@ -39,6 +39,7 @@ export default function TrackBus(props) {
 }
 
 function TrackMaps(props) {
+  console.log("props: ", props);
   const map = useMap();
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);

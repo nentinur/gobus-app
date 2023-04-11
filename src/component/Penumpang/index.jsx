@@ -25,8 +25,8 @@ export const Penumpang = () => {
         },
       })
       .then(function (response) {
-        console.log(response.data);
         setData(response.data);
+        console.log(data);
       })
       .catch(function (error) {
         console.log(error);
