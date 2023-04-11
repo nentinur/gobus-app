@@ -44,9 +44,8 @@ function TrackMaps(props) {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
 
-  // mengambil data posisi bus setiap 3 detik
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       console.log("no bus: ", nobus);
       axios
         .get("http://localhost:3100/posisi", {
@@ -66,7 +65,12 @@ function TrackMaps(props) {
           // always executed
         });
     }, 3000);
-  }, []);
+
+    // Membersihkan interval pada unmount atau ketika komponen di-update
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [nobus]); // Menambahkan [nobus] sebagai dependensi untuk mengikuti perubahan nobus
 
   return (
     <Marker position={[lat, lng]}>
