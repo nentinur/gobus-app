@@ -26,7 +26,7 @@ export const Penumpang = () => {
       })
       .then(function (response) {
         setData(response.data);
-        console.log(data);
+        console.log("ini response.data: ", response);
       })
       .catch(function (error) {
         console.log(error);
@@ -35,6 +35,7 @@ export const Penumpang = () => {
         // always executed
       });
   }, []);
+  console.log("ini data: ", data);
 
   return (
     <List
@@ -44,7 +45,10 @@ export const Penumpang = () => {
       {data?.map((dataPesanan) => (
         <ListItem key={dataPesanan.id_pesanan} value={dataPesanan.id_pesanan}>
           <ListItemButton>
-            <ListItemText primary={data.nama} secondary={data.kontak} />
+            <ListItemText
+              primary={dataPesanan.nama}
+              secondary={dataPesanan.kontak}
+            />
             <IconButton color="primary" href="http://wa.me/6287745677969">
               <WhatsAppIcon />
             </IconButton>

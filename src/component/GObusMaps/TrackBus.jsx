@@ -39,7 +39,7 @@ export default function TrackBus(props) {
 }
 
 function TrackMaps(props) {
-  console.log("props: ", props);
+  const nobus = props.no_bus;
   const map = useMap();
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
@@ -47,14 +47,15 @@ function TrackMaps(props) {
   // mengambil data posisi bus setiap 3 detik
   useEffect(() => {
     setInterval(() => {
+      console.log("no bus: ", nobus);
       axios
         .get("http://localhost:3100/posisi", {
           params: {
-            id: props.no_bus,
+            id: nobus,
           },
         })
         .then(function (response) {
-          console.log("get: ", response.data);
+          console.log("get position: ", response.data);
           setLat(parseFloat(response.data.lat));
           setLng(parseFloat(response.data.lng));
         })
@@ -87,7 +88,7 @@ const CurrrentPosition = () => {
     }, 3000);
   }, [map]);
 
-  console.log(position);
+  console.log("podition: ", position);
   return position === null ? null : (
     <Marker position={position}>
       <Popup>You are here</Popup>
