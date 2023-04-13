@@ -23,6 +23,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LoginButton } from "../Login/LoginButton";
+import PaymentForm from "../Pembayaran";
 
 export const Booking = () => {
   const [open, setOpen] = useState();
@@ -224,6 +225,7 @@ export const Booking = () => {
           >
             <Toolbar>
               <Typography>Total: Rp.{values.total_tarif}</Typography>
+              {/* <PaymentForm /> */}
             </Toolbar>
           </AppBar>
         </form>

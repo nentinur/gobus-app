@@ -18,7 +18,7 @@ export default function PenumpangPage() {
         <GObusAppBar />
         <Paper elevation={3} sx={{ margin: 3 }}>
           <Typography sx={{ px: 3, paddingTop: 2 }} variant="h6">
-            Jurusan - jam
+            Penumpang
           </Typography>
           <Penumpang />
         </Paper>
