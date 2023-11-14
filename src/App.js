@@ -126,21 +126,21 @@ function Layout() {
     dataUser = JSON.parse(user);
   }
 
-  if (dataUser.role == "penumpang" || dataUser == null) {
-    return (
-      <div>
-        <Outlet />
-        <GObusNavBar />
-      </div>
-    );
-  } else if (dataUser.role == "driver") {
-    return (
-      <div>
-        <Outlet />
-        <NavbarDriver />
-      </div>
-    );
-  }
+  // if (dataUser.role == "penumpang" || dataUser == null) {
+  return (
+    <div>
+      <Outlet />
+      <GObusNavBar />
+    </div>
+  );
+  // } else if (dataUser.role == "driver") {
+  //   return (
+  //     <div>
+  //       <Outlet />
+  //       <NavbarDriver />
+  //     </div>
+  //   );
+  // }
 }
 
 export default App;
